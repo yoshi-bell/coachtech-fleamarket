@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,11 @@ Route::middleware('auth')->group(function () {
     // 例:
     // Route::get('/mypage', [UserController::class, 'show']);
     // Route::post('/items/{item}/purchase', [PurchaseController::class, 'store']);
+
+    Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::get('/mypage', [ProfileController::class, 'show'])->name('mypage.show');
 });
 
 // Fortifyの認証ルートはFortifyが自動で設定します

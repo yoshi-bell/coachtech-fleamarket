@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -41,4 +43,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the profile associated with the user.
+     */
+    public function profile(): HasOne
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    /**
+     * Get the items for the user (seller).
+     */
+    public function items(): HasMany
+    {
+        return $this->hasMany(Item::class, 'seller_id');
+    }
+
+    /**
+     * Get the sold items for the user (as a buyer).
+     */
+    public function soldItems(): HasMany
+    {
+        return $this->hasMany(SoldItem::class, 'buyer_id');
+    }
 }
