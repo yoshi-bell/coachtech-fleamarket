@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\CustomLoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +22,7 @@ Route::get('/', [ItemController::class, 'index']); // トップページは誰�
 
 // 認証済みユーザーのみアクセスできるルートのグループ
 Route::middleware('auth')->group(function () {
-    // ここにログインが必要なルートを追加していきます
-    // 例:
-    // Route::get('/mypage', [UserController::class, 'show']);
-    // Route::post('/items/{item}/purchase', [PurchaseController::class, 'store']);
+    // ここにログインが必要なルートを追加
 
     Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -31,9 +30,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/mypage', [ProfileController::class, 'show'])->name('mypage.show');
 });
 
+Route::post('/register', RegisterController::class);
+
+Route::post('/custom-login', [CustomLoginController::class, 'login'])->name('custom.login');
+
 // Fortifyの認証ルートはFortifyが自動で設定します
 // Route::get('/register', ...);
-// Route::post('/register', ...);
 // Route::get('/login', ...);
-// Route::post('/login', ...);
 // Route::post('/logout', ...);

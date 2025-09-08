@@ -29,6 +29,7 @@ class CategorySeeder extends Seeder
             ['content' => 'アクセサリー'],
             ['content' => 'おもちゃ'],
             ['content' => 'ベビー・キッズ'],
+            ['content' => 'その他'], // 追加,クライアント確認後削除の可能性
         ];
 
         foreach ($categories as $category) {

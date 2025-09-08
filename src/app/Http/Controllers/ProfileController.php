@@ -12,6 +12,7 @@ class ProfileController extends Controller
 {
     public function edit()
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
         $user->load('profile'); // プロフィール情報をEagerロード
         return view('mypage.edit', compact('user'));
@@ -22,6 +23,7 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         // ユーザー名の更新
+        /** @var \App\Models\User $user */
         $user->name = $request->name;
         $user->save();
 
@@ -48,6 +50,7 @@ class ProfileController extends Controller
 
     public function show(Request $request)
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
         $user->load(['profile', 'items.condition', 'items.categories', 'soldItems.item']); // Eager load relationships
 
