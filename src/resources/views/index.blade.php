@@ -11,14 +11,15 @@
 </div>
 
 <div class="item-list__grid">
-    {{-- 商品カードの繰り返し --}}
-    @for ($i = 0; $i < 12; $i++) {{-- 仮で12個のダミー商品を表示 --}}
-        <div class="item-card">
-            <div class="item-card__image">
-                <img src="{{ asset('images/placeholder.png') }}" alt="商品画像"> {{-- 仮の画像 --}}
-            </div>
-            <div class="item-card__name">商品名</div>
+    @forelse ($items as $item)
+    <div class="item-card">
+        <div class="item-card__image">
+            <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
         </div>
-    @endfor
+        <div class="item-card__name">{{ $item->name }}</div>
+    </div>
+    @empty
+    <p>商品がありません。</p>
+    @endforelse
 </div>
 @endsection
