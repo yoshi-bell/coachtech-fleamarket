@@ -12,14 +12,16 @@
 
 <div class="item-list__grid">
     @forelse ($items as $item)
-    <div class="item-card">
-        <div class="item-card__image">
-            <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
-        </div>
-        <div class="item-card__name">{{ $item->name }}</div>
-    </div>
+        <a href="{{ route('item.show', $item->id) }}" class="item-card-link">
+            <div class="item-card">
+                <div class="item-card__image">
+                    <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
+                </div>
+                <div class="item-card__name">{{ $item->name }}</div>
+            </div>
+        </a>
     @empty
-    <p>商品がありません。</p>
+        <p>商品がありません。</p>
     @endforelse
 </div>
 @endsection

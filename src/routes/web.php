@@ -5,6 +5,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\SellController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,11 +20,15 @@ use App\Http\Controllers\Auth\RegisterController;
 
 // ログインしていなくてもアクセスできるルート
 Route::get('/', [ItemController::class, 'index']); // トップページは誰でもアクセス可能に
+Route::get('/item/{item}', [ItemController::class, 'show'])->name('item.show');
 
 // 認証済みユーザーのみアクセスできるルートのグループ
 Route::middleware('auth')->group(function () {
-    // ここにログインが必要なルートを追加
+    // 商品出品
+    Route::get('/sell', [SellController::class, 'create'])->name('sell.create');
+    Route::post('/sell', [SellController::class, 'store'])->name('sell.store');
 
+    // プロフィール
     Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
 

@@ -12,4 +12,10 @@ class ItemController extends Controller
         $items = Item::all();
         return view('index', compact('items'));
     }
+
+    public function show(Item $item)
+    {
+        $item->load(['seller', 'condition', 'categories']);
+        return view('item.show', compact('item'));
+    }
 }

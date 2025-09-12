@@ -5,23 +5,23 @@
 @endsection
 
 @section('content')
-<div class="profile-settings__content">
-    <div class="profile-settings__heading">
+<div class="profile__content">
+    <div class="profile__heading">
         <h2>プロフィール設定</h2>
     </div>
     <form class="form" action="/mypage/profile" method="post" enctype="multipart/form-data" novalidate>
         @csrf
         @method('PATCH') {{-- またはPUT --}}
 
-        <div class="form__group profile-image-group">
-            <div class="profile-image-preview">
+        <div class="form__group profile__image-group">
+            <div class="profile__image-preview">
                 @if($user->profile && $user->profile->img_url)
                     <img src="{{ asset('storage/profile_images/' . $user->profile->img_url) }}" alt="プロフィール画像">
                 @else
-                    <div class="profile-image-placeholder"></div>
+                    <div class="profile__image-placeholder"></div>
                 @endif
             </div>
-            <label for="img_url" class="image-select-button">画像を選択する</label>
+            <label for="img_url" class="profile__image-select-button">画像を選択する</label>
             <input type="file" id="img_url" name="img_url" accept="image/jpeg,image/png" style="display: none;">
             <div class="form__error">
                 @error('img_url')
