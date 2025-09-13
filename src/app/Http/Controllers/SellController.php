@@ -32,7 +32,7 @@ class SellController extends Controller
             'brand' => $request->input('brand'),
             'description' => $validated['description'],
             'price' => $validated['price'],
-            'img_url' => $path, // パス全体をDBに保存
+            'img_url' => basename($path), // ファイル名のみをDBに保存
         ]);
 
         // カテゴリーを紐付け

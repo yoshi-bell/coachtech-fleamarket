@@ -6,6 +6,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\SellController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\AddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +35,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::get('/mypage', [ProfileController::class, 'show'])->name('mypage.show');
+
+    // 商品購入
+    Route::get('/purchase/{item}', [PurchaseController::class, 'create'])->name('purchase.create');
+    Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
+
+    // Stripe決済成功
+    Route::get('/purchase/success/{item}', [PurchaseController::class, 'success'])->name('purchase.success');
+
+    // 住所変更
+    Route::get('/purchase/address/{item}', [AddressController::class, 'edit'])->name('purchase.address.edit');
+    Route::patch('/purchase/address/{item}', [AddressController::class, 'update'])->name('purchase.address.update');
 });
 
 Route::post('/register', RegisterController::class);

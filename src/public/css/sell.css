@@ -154,3 +154,16 @@
     font-size: 16px;
     margin-top: 5px;
 }
+
+/* 販売価格入力のスピンボタンを非表示にする */
+/* Chrome, Safari, Edge */
+.sell-form__input--price::-webkit-outer-spin-button,
+.sell-form__input--price::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+.sell-form__input--price {
+    -moz-appearance: textfield;
+}

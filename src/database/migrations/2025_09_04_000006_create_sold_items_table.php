@@ -17,6 +17,9 @@ class CreateSoldItemsTable extends Migration
             $table->id();
             $table->foreignId('item_id')->unique()->constrained('items')->onDelete('cascade');
             $table->foreignId('buyer_id')->constrained('users')->onDelete('cascade');
+            $table->string('postcode');
+            $table->string('address');
+            $table->string('building')->nullable();
             $table->timestamps();
         });
     }

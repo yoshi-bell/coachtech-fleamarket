@@ -13,6 +13,9 @@ class SoldItem extends Model
     protected $fillable = [
         'item_id',
         'buyer_id',
+        'postcode',
+        'address',
+        'building',
     ];
 
     /**

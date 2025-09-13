@@ -8,7 +8,12 @@
 <div class="item__content">
     <div class="item__card">
         <div class="item__image">
-            <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}">
+            @if($item->soldItem)
+            <div class="item__sold-overlay">
+                Sold
+            </div>
+            @endif
+            <img src="{{ asset('storage/item_images/' . $item->img_url) }}" alt="{{ $item->name }}">
         </div>
         <div class="item__info">
             <h1 class="item__name">{{ $item->name }}</h1>
@@ -26,7 +31,11 @@
                         <span>{{ $item->comments->count() }}</span>
                     </div>
                 </div>
-                <button class="item__purchase-button">購入手続きへ</button>
+                @if($item->soldItem)
+                <button class="item__purchase-button--sold-out" disabled>完売いたしました</button>
+                @else
+                <a href="{{ route('purchase.create', ['item' => $item->id]) }}" class="item__purchase-button">購入手続きへ</a>
+                @endif
             </div>
 
             <div class="item__description-section">

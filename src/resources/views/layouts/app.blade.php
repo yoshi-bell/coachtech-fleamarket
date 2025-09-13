@@ -31,26 +31,26 @@
                 <nav>
                     <ul class="header-nav">
                         @auth
-                            <li class="header-nav__item">
-                                <form action="/logout" method="post" novalidate>
-                                    @csrf
-                                    <button class="header-nav__button">ログアウト</button>
-                                </form>
-                            </li>
-                            <li class="header-nav__item">
-                                <a class="header-nav__link" href="/mypage">マイページ</a>
-                            </li>
-                            <li class="header-nav__item">
-                                <a class="header-nav__button" href="/sell">出品</a>
-                            </li>
+                        <li class="header-nav__item">
+                            <form action="/logout" method="post" novalidate>
+                                @csrf
+                                <button class="header-nav__button">ログアウト</button>
+                            </form>
+                        </li>
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="/mypage">マイページ</a>
+                        </li>
+                        <li class="header-nav__item">
+                            <a class="header-nav__button" href="/sell">出品</a>
+                        </li>
                         @endauth
                         @guest
-                            <li class="header-nav__item">
-                                <a class="header-nav__link" href="/login">ログイン</a>
-                            </li>
-                            <li class="header-nav__item">
-                                <a class="header-nav__link" href="/register">会員登録</a>
-                            </li>
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="/login">ログイン</a>
+                        </li>
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="/register">会員登録</a>
+                        </li>
                         @endguest
                     </ul>
                 </nav>
@@ -62,7 +62,7 @@
     <main>
         @yield('content')
     </main>
-@yield('modal')
+    @yield('js')
 </body>
 
 </html>

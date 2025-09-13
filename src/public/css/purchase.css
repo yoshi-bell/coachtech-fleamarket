@@ -1,0 +1,147 @@
+/* グリッドコンテナ */
+.purchase-content {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: grid;
+    /* 左列は可変、右列は少し狭く */
+    grid-template-columns: 1fr 420px;
+    gap: 50px;
+    align-items: start;
+}
+
+/* 左列 */
+.purchase-main {
+    /* この要素がグリッドの左列になります */
+}
+
+/* 右列 */
+.purchase-sidebar {
+    /* この要素がグリッドの右列になります */
+    position: sticky;
+    top: 40px;
+}
+
+/* --- 左列の要素 --- */
+
+.purchase-item {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.purchase-item__img-wrapper {
+    flex-shrink: 0;
+}
+
+.purchase-item__img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.purchase-item__body {
+    padding-top: 5px;
+}
+
+.purchase-item__name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 5px 0;
+}
+
+.purchase-item__price {
+    font-size: 16px;
+    margin: 0;
+}
+
+.purchase-form__group {
+    padding: 20px 0;
+    border-top: 1px solid #e0e0e0;
+    position: relative;
+}
+
+.purchase-main .purchase-form__group:last-of-type {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.purchase-form__group-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+}
+
+.purchase-form__payment-select {
+    width: 50%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.purchase-form__address-change-link {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.purchase-form__address-change-link:hover {
+    text-decoration: underline;
+}
+
+.purchase-form__address p {
+    margin: 5px 0;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.purchase-form__address-none,
+.purchase-form__address-add-link {
+    font-size: 14px;
+}
+
+/* --- 右列の要素 --- */
+
+.purchase-summary {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    /* 左右のpaddingを削除 */
+    padding: 0;
+}
+
+.purchase-summary__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    /* 各行にpaddingを設定 */
+    padding: 20px;
+}
+
+.purchase-summary__row + .purchase-summary__row {
+    border-top: 1px solid #e0e0e0;
+}
+
+.purchase-summary__label {
+    font-weight: bold;
+}
+
+.purchase-form__submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #ff5555;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.purchase-form__submit-btn:hover {
+    background-color: #ee4444;
+}

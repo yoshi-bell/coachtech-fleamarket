@@ -21,7 +21,8 @@ Laravel環境構築
 4.php artisan key:generate
 5.php artisan migrate
 6.php artisan db:seed
-
+7.stripeアカウント作成しAPIキーを取得(※要修正
+8..envファイルにAPIキーを設定
 ＊シーディングにより、「〇〇の種類」〇種類のデータ、〇〇のダミーデータ〇件がデータベースに入力されます。
 
 ＊"The stream or file could not be opened"エラーが発生した場合
@@ -61,4 +62,25 @@ chmod -R 777 storage
 ・ユーザ登録ページ：/register
 ・ログインページ：/login
 ・phpMyAdmin：http://localhost:8080/
+・stripe公式サイト：https://stripe.com/jp
+
 ```
+
+
+* カード番号:
+      4242 4242 4242 4242
+      ( 4242 を4回繰り返します。これはテスト用のVisaカードとして認識されます。)
+
+
+   * 有効期限:
+      未来の日付であれば、何でも構いません。
+      (例: 12 / 25)
+
+   * CVC（セキュリティコード）:
+      3桁の数字であれば、何でも構いません。
+      (例: 123)
+
+
+   * 名前:
+      任意の名前で構いません。
+      (例: TEST TARO)

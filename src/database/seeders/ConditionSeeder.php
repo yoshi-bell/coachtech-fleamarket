@@ -15,7 +15,6 @@ class ConditionSeeder extends Seeder
     public function run()
     {
         $conditions = [
-            ['content' => '新品・未使用'],
             ['content' => '良好'],
             ['content' => '目立った傷や汚れなし'],
             ['content' => 'やや傷や汚れあり'],
