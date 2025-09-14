@@ -16,8 +16,13 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::factory()
-            ->has(Profile::factory())
-            ->count(10)
-            ->create();
+            ->count(5)
+            ->create()
+            ->each(function ($user, $index) {
+                $imageNumber = $index + 1; // 1から始まる番号を生成
+                $user->profile()->save(Profile::factory()->make([
+                    'img_url' => 'profile' . $imageNumber . '.png',
+                ]));
+            });
     }
 }

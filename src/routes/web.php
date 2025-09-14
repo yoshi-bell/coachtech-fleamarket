@@ -9,6 +9,7 @@ use App\Http\Controllers\SellController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,9 @@ Route::middleware('auth')->group(function () {
     // いいね機能
     Route::post('/like/{item}', [LikeController::class, 'store'])->name('like.store');
     Route::delete('/like/{item}', [LikeController::class, 'destroy'])->name('like.destroy');
+
+    // コメント機能
+    Route::post('/comment/{item}', [CommentController::class, 'store'])->name('comment.store');
 });
 
 Route::post('/register', RegisterController::class);

@@ -65,7 +65,13 @@ chmod -R 777 storage
 ・stripe公式サイト：https://stripe.com/jp
 
 ```
+ディスクがWebからアクセスできるようにシンボリックリンクを作成してください。
 
+   1     php artisan storage:link
+
+
+ダミーデータのユーザーパスワードはすべて
+usertest
 
 * カード番号:
       4242 4242 4242 4242

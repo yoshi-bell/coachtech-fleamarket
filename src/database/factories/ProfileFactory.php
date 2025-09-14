@@ -23,7 +23,7 @@ class ProfileFactory extends Factory
     {
         return [
             // user_id は呼び出し元で設定します
-            'img_url' => 'default_profile.png', // ファイル名のみ
+            'img_url' => null, // Seederで設定するためnullに
             'postcode' => $this->faker->numerify('###-####'),
             'address' => $this->faker->prefecture . $this->faker->city . $this->faker->streetAddress,
             'building' => $this->faker->optional()->secondaryAddress,
