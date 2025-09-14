@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\LikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,10 @@ Route::middleware('auth')->group(function () {
     // 住所変更
     Route::get('/purchase/address/{item}', [AddressController::class, 'edit'])->name('purchase.address.edit');
     Route::patch('/purchase/address/{item}', [AddressController::class, 'update'])->name('purchase.address.update');
+
+    // いいね機能
+    Route::post('/like/{item}', [LikeController::class, 'store'])->name('like.store');
+    Route::delete('/like/{item}', [LikeController::class, 'destroy'])->name('like.destroy');
 });
 
 Route::post('/register', RegisterController::class);

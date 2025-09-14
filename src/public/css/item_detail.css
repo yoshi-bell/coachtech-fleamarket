@@ -33,7 +33,7 @@
     font-weight: bold;
     padding: 8px 0;
     font-size: 55px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     z-index: 1;
 }
 
@@ -54,7 +54,7 @@
     margin-bottom: 0px;
 }
 
-.item__brand {
+.item__brand{
     font-size: 20px;
 }
 
@@ -69,7 +69,7 @@
     margin-top: 10px
 }
 
-.item__price span {
+.item__price span{
     font-size: 30px;
 }
 
@@ -101,10 +101,29 @@
 .item__count-box i {
     font-size: 40px;
     color: #4B4B4B;
+    transition: color 0.2s ease-in-out;
+}
+
+/* Like Button Styles */
+.like-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    line-height: 1; /* To align icon properly */
+}
+
+.like-button .fa-star.liked {
+    color: #ff5555; /* Liked color */
+    font-weight: 900; /* Makes the star solid (fas) */
+}
+
+.comment-link i {
+    color: #4B4B4B;
 }
 
 .item__purchase-button,
-.item__comment-form button {
+.item__comment-form button{
     width: 100%;
     padding: 8px 25px;
     background-color: #ff5555;
@@ -117,7 +136,7 @@
     transition: background-color 0.3s ease;
 }
 
-.item__purchase-button {
+.item__purchase-button{
     text-align: center;
     text-decoration: none;
 }
@@ -169,7 +188,7 @@
     margin-bottom: 15px;
 }
 
-.item__category {
+.item__category{
     display: inline-block;
     background-color: #f0f0f0;
     padding: 5px 10px;
@@ -179,7 +198,7 @@
     font-size: 20px;
 }
 
-.item__condition {
+.item__condition{
     font-size: 20px;
     margin-left: 20px;
 }

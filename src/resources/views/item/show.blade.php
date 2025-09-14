@@ -22,12 +22,17 @@
 
             <div class="item__actions">
                 <div class="item__counts">
+                    <form id="like-form" class="item__count-box" data-item-id="{{ $item->id }}" data-is-liked="{{ $isLiked ? 'true' : 'false' }}">
+                        @csrf
+                        <button type="submit" class="like-button">
+                            <i id="like-icon" class="far fa-star {{ $isLiked ? 'liked' : '' }}"></i>
+                        </button>
+                        <span id="like-count">{{ $item->likes->count() }}</span>
+                    </form>
                     <div class="item__count-box">
-                        <i class="far fa-star"></i>
-                        <span>{{ $item->likes->count() }}</span>
-                    </div>
-                    <div class="item__count-box">
-                        <i class="far fa-comment"></i>
+                        <a href="#item__comments-section" class="comment-link">
+                            <i class="far fa-comment"></i>
+                        </a>
                         <span>{{ $item->comments->count() }}</span>
                     </div>
                 </div>
@@ -57,7 +62,7 @@
                 </div>
             </div>
 
-            <div class="item__comments-section">
+            <div id="item__comments-section" class="item__comments-section">
                 <h3>コメント</h3>
                 @forelse($item->comments as $comment)
                 <div class="item__comment-item">
@@ -76,4 +81,44 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const likeForm = document.getElementById('like-form');
+        if (likeForm) {
+            likeForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const itemId = this.dataset.itemId;
+                let isLiked = this.dataset.isLiked === 'true';
+                const likeIcon = document.getElementById('like-icon');
+                const likeCountSpan = document.getElementById('like-count');
+
+                const method = isLiked ? 'DELETE' : 'POST';
+                const url = `/like/${itemId}`;
+
+                fetch(url, {
+                        method: method,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        likeCountSpan.textContent = data.likeCount;
+                        isLiked = !isLiked;
+                        this.dataset.isLiked = isLiked ? 'true' : 'false';
+                        likeIcon.classList.toggle('liked');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        }
+    });
+</script>
 @endsection
