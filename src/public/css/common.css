@@ -20,10 +20,6 @@ body {
 }
 
 .header__logo {
-    color: #fff;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 24px;
     display: flex;
     align-items: center;
 }
@@ -44,6 +40,11 @@ body {
     border-radius: 5px;
     border: 1px solid #ccc;
     box-sizing: border-box;
+}
+
+.header-utilities nav {
+    /* width: 18%; */
+    /* Remove or adjust as needed */
 }
 
 .header-nav {
@@ -72,6 +73,14 @@ body {
     padding: 8px 15px;
     border-radius: 5px;
     cursor: pointer;
-    text-decoration: none; /* For anchor-like buttons */
-    display: inline-block; /* For anchor-like buttons */
+    text-decoration: none;
+    display: inline-block;
+}
+
+.form__error {
+    color: #ff0000;
+    text-align: left;
+    font-size: 20px;
+    margin-top: 5px;
+    height: auto;
 }
