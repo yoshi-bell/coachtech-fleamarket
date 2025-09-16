@@ -6,11 +6,21 @@
 
 @section('content')
 <div class="item-list__tabs">
-    <a href="/" class="item-list__tab @if(!request()->has('tab') || request()->get('tab') == 'recommended') active @endif">おすすめ</a>
-    <a href="/?tab=mylist" class="item-list__tab @if(request()->get('tab') == 'mylist') active @endif">マイリスト</a>
+    {{-- Construct base query parameters --}}
+    @php
+    $baseQueryParams = [];
+    if (isset($keyword) && $keyword) {
+    $baseQueryParams['keyword'] = $keyword;
+    }
+    @endphp
+
+    <a href="{{ route('index', $baseQueryParams) }}" class="item-list__tab @if($tab == 'all') active @endif">おすすめ</a>
+    <a href="{{ route('index', array_merge($baseQueryParams, ['tab' => 'mylist'])) }}" class="item-list__tab @if($tab == 'mylist') active @endif">マイリスト</a>
 </div>
 
 <div class="item-list__grid">
+    @if($tab == 'mylist' && !Auth::check())
+    @else
     @forelse ($items as $item)
     <a href="{{ route('item.show', $item->id) }}" class="item-card-link">
         <div class="item-card">
@@ -26,7 +36,12 @@
         </div>
     </a>
     @empty
+    @if($tab == 'mylist')
+    <p>マイリストに商品がありません。</p>
+    @else
     <p>商品がありません。</p>
+    @endif
     @endforelse
+    @endif
 </div>
 @endsection

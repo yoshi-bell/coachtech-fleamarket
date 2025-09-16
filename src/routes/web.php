@@ -23,7 +23,7 @@ use App\Http\Controllers\CommentController;
 */
 
 // ログインしていなくてもアクセスできるルート
-Route::get('/', [ItemController::class, 'index']); // トップページは誰でもアクセス可能に
+Route::get('/', [ItemController::class, 'index'])->name('index'); // トップページは誰でもアクセス可能に
 Route::get('/item/{item}', [ItemController::class, 'show'])->name('item.show');
 
 // 認証済みユーザーのみアクセスできるルートのグループ
@@ -35,7 +35,6 @@ Route::middleware('auth')->group(function () {
     // プロフィール
     Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/mypage/profile', [ProfileController::class, 'update'])->name('profile.update');
-
     Route::get('/mypage', [ProfileController::class, 'show'])->name('mypage.show');
 
     // 商品購入
@@ -58,7 +57,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/register', RegisterController::class);
-
 Route::post('/custom-login', [CustomLoginController::class, 'login'])->name('custom.login');
 
 // Fortifyの認証ルートはFortifyが自動で設定します

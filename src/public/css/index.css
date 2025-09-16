@@ -70,18 +70,23 @@
 
 .item-list__tabs {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-left: 15%;
+    /* 中央と左端の中間地点あたりに配置 */
     margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+    border-bottom: 2px solid #5F5F5F;
+    padding-top: 35px;
 }
 
 .item-list__tab {
     padding: 10px 20px;
+    margin-right: 50px;
     text-decoration: none;
     color: #555;
     font-weight: bold;
     transition: color 0.3s ease;
+    font-size: 24px;
+    /* フォントサイズを調整 */
 }
 
 .item-list__tab:hover {
@@ -89,8 +94,7 @@
 }
 
 .item-list__tab.active {
-    color: #000;
-    border-bottom: 2px solid #000;
+    color: #FF0000;
 }
 
 .item-list__grid {

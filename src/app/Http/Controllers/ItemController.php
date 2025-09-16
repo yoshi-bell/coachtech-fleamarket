@@ -8,31 +8,47 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $query = Item::query();
+        $tab = $request->query('tab', 'all');
+        $keyword = $request->input('keyword');
+        $items = collect();
 
-        // ログインしている場合、自分が出品した商品を除外
-        if (Auth::check()) {
-            $query->where('seller_id', '!=', Auth::id());
+        if ($tab === 'mylist' && Auth::check()) {
+            $likedItemsQuery = Auth::user()->likes()->with('item.soldItem')->latest();
+
+            if ($keyword) {
+                $likedItemsQuery->whereHas('item', function ($query) use ($keyword) {
+                    $query->where('name', 'LIKE', '%' . $keyword . '%');
+                });
+            }
+
+            $items = $likedItemsQuery->get()->map(function ($like) {
+                return $like->item;
+            });
+        } else {
+            $query = Item::query();
+
+            if (Auth::check()) {
+                $query->where('seller_id', '!=', Auth::id());
+            }
+
+            if ($keyword) {
+                $query->where('name', 'LIKE', '%' . $keyword . '%');
+            }
+            $items = $query->with('soldItem')->latest()->get();
         }
-
-        // N+1問題を防ぐため、売り切れ情報をEagerロードし、新しい順に取得
-        $items = $query->with('soldItem')->latest()->get();
-
-        return view('index', compact('items'));
+        return view('index', compact('items', 'tab', 'keyword'));
     }
 
     public function show(Item $item)
     {
-        // N+1問題を防ぐため、必要なリレーションをすべてEagerロード
         $item->load(['seller', 'condition', 'categories', 'soldItem', 'likes', 'comments.user']);
 
         $isLiked = false;
         if (Auth::check()) {
             $isLiked = Auth::user()->likes()->where('item_id', $item->id)->exists();
         }
-
         return view('item.show', compact('item', 'isLiked'));
     }
 }
