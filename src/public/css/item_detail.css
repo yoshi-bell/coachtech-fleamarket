@@ -1,10 +1,7 @@
 .item__content {
-    max-width: 1000px;
+    max-width: 1515px;
     margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    padding: 75px;
 }
 
 .item__card {
@@ -14,9 +11,9 @@
 
 .item__image {
     flex: 1;
-    max-width: 450px;
-    border: 1px solid #eee;
-    border-radius: 8px;
+    max-width: 600px;
+    margin: 30px;
+    border-radius: 4px;
     overflow: hidden;
     position: relative;
 }
@@ -46,6 +43,7 @@
 .item__info {
     flex: 1;
     padding-right: 20px;
+    margin-left: 25px;
 }
 
 .item__name {
@@ -269,11 +267,4 @@
     margin-bottom: 10px;
     box-sizing: border-box;
     font-size: 15px;
-}
-
-.form__error {
-    color: red;
-    font-size: 0.9em;
-    margin-top: 5px;
-    margin-bottom: 10px;
 }

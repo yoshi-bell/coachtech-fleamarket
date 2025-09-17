@@ -1,24 +1,19 @@
 .profile__content {
     margin: 0 auto;
     padding: 30px 15px;
-    max-width: 800px;
+    max-width: 1230px;
 }
 
 .profile__heading {
-    margin-bottom: 30px;
+    font-size: 25px;
+    margin: 30px 0;
     text-align: center;
-    font-size: 2em;
     color: #333;
 }
 
 .form {
     margin: 0 auto;
-    width: 80%;
-    padding: 20px;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 680px;
 }
 
 .form__group {
@@ -29,54 +24,57 @@
     text-align: left;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #555;
+    font-size: 24px;
 }
 
 .form__input--text input {
-    width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
+    width: 100%;
+    height: 60px;
+    font-size: 24px;
+    font-weight: bold;
+    border: 1px solid #5F5F5F;
     border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.form__error {
-    color: red;
-    font-size: 0.9em;
-    margin-top: 5px;
+    appearance: none;
 }
 
 .form__button {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 100px;
+    height: 65px;
 }
 
 .form__button-submit {
     padding: 12px 30px;
-    background-color: #ff6347;
+    width: 100%;
+    background-color: #FF5555;
     color: #fff;
     border: none;
     border-radius: 5px;
-    font-size: 1.1em;
+    font-size: 26px;
+    font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .form__button-submit:hover {
-    background-color: #e55337;
+    background-color: #EE4444;
 }
 
 .profile__image-group {
     text-align: center;
     margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .profile__image-preview {
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     background-color: #eee;
-    margin: 0 auto 15px;
+    margin: 30px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -97,18 +95,28 @@
     border-radius: 50%;
 }
 
+.profile__image-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
 .profile__image-select-button {
     display: inline-block;
+    width: 189px;
+    height: 50px;
     padding: 8px 15px;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    background-color: #fff;
+    border: 2px solid #ff5555;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 0.9em;
-    color: #555;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff5555;
     transition: background-color 0.3s ease;
 }
 
 .profile__image-select-button:hover {
-    background-color: #e0e0e0;
+    background-color: #ffebeb;
 }
