@@ -70,8 +70,15 @@ chmod -R 777 storage
    1     php artisan storage:link
 
 
-ダミーデータのユーザーパスワードはすべて
-usertest
+ダミーデータユーザー
+ユーザーメールアドレス
+test1@example.com
+test2@example.com
+test3@example.com
+test4@example.com
+test5@example.com
+ユーザーパスワード
+全ユーザー：usertest
 
 * カード番号:
       4242 4242 4242 4242

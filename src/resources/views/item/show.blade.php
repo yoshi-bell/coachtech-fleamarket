@@ -22,6 +22,7 @@
 
             <div class="item__actions">
                 <div class="item__counts">
+                    @auth
                     <form id="like-form" class="item__count-box" data-item-id="{{ $item->id }}" data-is-liked="{{ $isLiked ? 'true' : 'false' }}" novalidate>
                         @csrf
                         <button type="submit" class="like-button">
@@ -29,6 +30,13 @@
                         </button>
                         <span id="like-count">{{ $item->likes->count() }}</span>
                     </form>
+                    @endauth
+                    @guest
+                    <div class="item__count-box">
+                        <i class="far fa-star" style="cursor: default;"></i>
+                        <span id="like-count">{{ $item->likes->count() }}</span>
+                    </div>
+                    @endguest
                     <div class="item__count-box">
                         <a href="#item__comments-section" class="comment-link">
                             <i class="far fa-comment"></i>

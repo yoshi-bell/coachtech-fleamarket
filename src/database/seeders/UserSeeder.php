@@ -15,14 +15,30 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()
-            ->count(5)
-            ->create()
-            ->each(function ($user, $index) {
-                $imageNumber = $index + 1; // 1から始まる番号を生成
-                $user->profile()->save(Profile::factory()->make([
-                    'img_url' => 'profile' . $imageNumber . '.png',
-                ]));
-            });
+        $profileImages = [
+            'profile1.png',
+            'profile2.png',
+            'profile3.png',
+            'profile4.png',
+            'profile5.png',
+        ];
+
+        $emails = [
+            'test1@example.com',
+            'test2@example.com',
+            'test3@example.com',
+            'test4@example.com',
+            'test5@example.com',
+        ];
+
+        for ($i = 0; $i < 5; $i++) {
+            $user = User::factory()->create([
+                'email' => $emails[$i],
+            ]);
+
+            $user->profile()->save(Profile::factory()->make([
+                'img_url' => $profileImages[$i],
+            ]));
+        }
     }
 }

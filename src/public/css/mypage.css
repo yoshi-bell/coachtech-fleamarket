@@ -106,6 +106,10 @@
     background-color: #fff;
 }
 
+.item-card-link {
+    text-decoration: none;
+}
+
 .item-card__image {
     width: 290px;
     height: 290px;
@@ -125,9 +129,24 @@
 
 .item-card__name {
     padding: 5px;
-    font-weight: bold;
     font-size: 25px;
     color: #000;
+}
+
+.item-card__sold-overlay {
+    position: absolute;
+    top: 15px;
+    left: -65px;
+    width: 235px;
+    transform: rotate(-45deg);
+    background-color: #ff5555;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 0;
+    font-size: 45px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    z-index: 1;
 }
 
 /*

@@ -1,23 +1,19 @@
-/* グリッドコンテナ */
 .purchase-content {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 0 20px;
+    max-width: 1515px;
+    margin: 80px auto 20px;
+    padding: 0 90px;
+    font-size: 20px;
     display: grid;
-    /* 左列は可変、右列は少し狭く */
-    grid-template-columns: 1fr 420px;
-    gap: 50px;
+    grid-template-columns: 1fr 440px;
+    gap: 100px;
     align-items: start;
 }
 
-/* 左列 */
 .purchase-main {
-    /* この要素がグリッドの左列になります */
 }
 
 /* 右列 */
 .purchase-sidebar {
-    /* この要素がグリッドの右列になります */
     position: sticky;
     top: 40px;
 }
@@ -35,8 +31,8 @@
 }
 
 .purchase-item__img {
-    width: 100px;
-    height: 100px;
+    width: 180px;
+    height: 180px;
     object-fit: cover;
 }
 
@@ -45,37 +41,42 @@
 }
 
 .purchase-item__name {
-    font-size: 18px;
+    font-size: 30px;
     font-weight: bold;
     margin: 0 0 5px 0;
 }
 
 .purchase-item__price {
-    font-size: 16px;
+    font-size: 30px;
     margin: 0;
 }
 
+.purchase-item__price span {
+    font-size: 26px;
+}
+
 .purchase-form__group {
-    padding: 20px 0;
-    border-top: 1px solid #e0e0e0;
+    padding: 25px 0 45px 40px;
+    border-top: 1px solid #000000;
     position: relative;
 }
 
 .purchase-main .purchase-form__group:last-of-type {
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid #000000;
 }
 
 .purchase-form__group-title {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     margin: 0 0 15px 0;
 }
 
 .purchase-form__payment-select {
-    width: 50%;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    width: 265px;
+    height: 30px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #5F5F5F;
 }
 
 .purchase-form__address-change-link {
@@ -84,7 +85,6 @@
     right: 0;
     color: #007bff;
     text-decoration: none;
-    font-size: 14px;
 }
 
 .purchase-form__address-change-link:hover {
@@ -93,8 +93,7 @@
 
 .purchase-form__address p {
     margin: 5px 0;
-    font-size: 14px;
-    line-height: 1.6;
+    font-weight: bold;
 }
 
 .purchase-form__address-none,
@@ -105,27 +104,32 @@
 /* --- 右列の要素 --- */
 
 .purchase-summary {
-    background-color: #fff;
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
     border-radius: 5px;
-    /* 左右のpaddingを削除 */
     padding: 0;
 }
 
 .purchase-summary__row {
+    height: 115px;
     display: flex;
     justify-content: space-between;
-    font-size: 16px;
-    /* 各行にpaddingを設定 */
-    padding: 20px;
+    align-items: center;
+    padding: 0 55px;
 }
 
-.purchase-summary__row + .purchase-summary__row {
-    border-top: 1px solid #e0e0e0;
+.purchase-summary__row+.purchase-summary__row {
+    border-top: 1px solid #000000;
 }
 
 .purchase-summary__label {
-    font-weight: bold;
+}
+
+.purchase-summary__value {
+    font-size: 24px;
+}
+
+.purchase-summary__value span {
+    font-size: 20px;
 }
 
 .purchase-form__submit-btn {
@@ -135,11 +139,11 @@
     color: #fff;
     border: none;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 26px;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 20px;
+    margin-top: 70px;
 }
 
 .purchase-form__submit-btn:hover {

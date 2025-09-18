@@ -129,6 +129,6 @@ class PurchaseController extends Controller
             return redirect('/')->with('error', '購入記録の保存に失敗しました。');
         }
 
-        return redirect('/')->with('message', '商品を購入しました！');
+        return redirect()->route('mypage.show', ['page' => 'buy'])->with('message', '商品を購入しました！');
     }
 }

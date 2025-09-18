@@ -1,7 +1,7 @@
 .item__content {
     max-width: 1515px;
     margin: 20px auto;
-    padding: 75px;
+    padding: 80px;
 }
 
 .item__card {
@@ -44,6 +44,7 @@
     flex: 1;
     padding-right: 20px;
     margin-left: 25px;
+    font-size: 20px;
 }
 
 .item__name {
@@ -53,7 +54,7 @@
 }
 
 .item__brand {
-    font-size: 20px;
+    /* font-size: 20px; */
 }
 
 .item__price,
@@ -266,5 +267,5 @@
     margin-top: 5px;
     margin-bottom: 10px;
     box-sizing: border-box;
-    font-size: 15px;
+    font-size: 20px;
 }

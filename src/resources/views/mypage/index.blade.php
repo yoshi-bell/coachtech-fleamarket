@@ -27,18 +27,25 @@
 
     <div class="mypage__item-grid">
         @forelse ($displayItems as $item)
-        <div class="item-card">
-            <div class="item-card__image">
-                @if($item->img_url)
-                <img src="{{ asset('storage/item_images/' . $item->img_url) }}" alt="商品画像"> {{-- 仮の画像パス --}}
-                @else
-                <img src="{{ asset('images/placeholder.png') }}" alt="商品画像"> {{-- 仮の画像 --}}
-                @endif
+        <a href="{{ route('item.show', $item->id) }}" class="item-card-link">
+            <div class="item-card">
+                <div class="item-card__image">
+                    @if($activeTab == 'sell' && $item->soldItem)
+                    <div class="item-card__sold-overlay">
+                        Sold
+                    </div>
+                    @endif
+                    @if($item->img_url)
+                    <img src="{{ asset('storage/item_images/' . $item->img_url) }}" alt="商品画像">
+                    @else
+                    <img src="{{ asset('images/placeholder.png') }}" alt="商品画像">
+                    @endif
+                </div>
+                <div class="item-card__name">{{ $item->name }}</div>
             </div>
-            <div class="item-card__name">{{ $item->name }}</div>
-        </div>
+        </a>
         @empty
-        <p>表示する商品がありません。</p>
+        <!-- <p>表示する商品がありません。</p> -->
         @endforelse
     </div>
 </div>

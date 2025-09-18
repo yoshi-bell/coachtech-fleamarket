@@ -15,7 +15,7 @@
                 </div>
                 <div class="purchase-item__body">
                     <h2 class="purchase-item__name">{{ $item->name }}</h2>
-                    <p class="purchase-item__price">¥{{ number_format($item->price) }}</p>
+                    <p class="purchase-item__price"><span>¥ </span>{{ number_format($item->price) }}</p>
                 </div>
             </div>
 
@@ -60,7 +60,7 @@
             <div class="purchase-summary">
                 <div class="purchase-summary__row">
                     <span class="purchase-summary__label">商品代金</span>
-                    <span class="purchase-summary__value">¥{{ number_format($item->price) }}</span>
+                    <span class="purchase-summary__value"><span>¥</span>{{ number_format($item->price) }}</span>
                 </div>
                 <div class="purchase-summary__row">
                     <span class="purchase-summary__label">支払い方法</span>
