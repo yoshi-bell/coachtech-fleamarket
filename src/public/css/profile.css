@@ -1,6 +1,6 @@
 .profile__content {
     margin: 0 auto;
-    padding: 30px 15px;
+    padding: 30px 15px 80px;
     max-width: 1230px;
 }
 
@@ -18,6 +18,10 @@
 
 .form__group {
     margin-bottom: 20px;
+}
+
+.form__group-content {
+    height: 80px;
 }
 
 .form__group-title {
@@ -119,4 +123,63 @@
 
 .profile__image-select-button:hover {
     background-color: #ffebeb;
+}
+
+@media (max-width: 850px) {
+    .profile__content {
+        padding: 15px 15px 60px;
+        max-width: 100%;
+    }
+
+    .profile__heading {
+        font-size: 20px;
+        margin: 30px 0;
+    }
+
+    .form {
+        max-width: 70%;
+    }
+
+    .form__group {
+        margin-bottom: 0;
+    }
+
+    .form__group-title {
+        font-size: 18px;
+    }
+
+    .form__input--text input {
+        height: 40px;
+        font-size: 16px;
+    }
+
+    .form__button-submit {
+        font-size: 20px;
+        padding: 10px 20px;
+    }
+
+    .profile__image-group {
+        gap: 0;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .profile__image-preview {
+        margin: 15px;
+    }
+
+    .profile__image-select-button {
+        width: 150px;
+        height: 40px;
+        font-size: 16px;
+        padding: 5px 10px;
+    }
+
+    .form__group-content {
+        height: 70px;
+    }
+
+    .form__button {
+        margin-top: 40px;
+    }
 }

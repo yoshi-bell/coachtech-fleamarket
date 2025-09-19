@@ -20,13 +20,15 @@
     <header class="header">
         <div class="header__inner">
             <div class="header-utilities">
-                <a class="header__logo" href="/">
-                    <img src="{{ asset('images/logo.svg') }}" alt="Logo" class="header__logo-image">
-                </a>
-                <div class="header__search">
-                    <form action="/" method="get" novalidate>
-                        <input type="text" name="keyword" placeholder="なにをお探しですか?" value="{{ request('keyword') }}">
-                    </form>
+                <div class="header-top-row">
+                    <a class="header__logo" href="/">
+                        <img src="{{ asset('images/logo.svg') }}" alt="Logo" class="header__logo-image">
+                    </a>
+                    <div class="header__search">
+                        <form action="/" method="get" novalidate>
+                            <input type="text" name="keyword" placeholder="なにをお探しですか?" value="{{ request('keyword') }}">
+                        </form>
+                    </div>
                 </div>
                 <nav>
                     <ul class="header-nav">

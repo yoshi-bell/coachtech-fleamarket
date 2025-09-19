@@ -9,16 +9,10 @@
     align-items: start;
 }
 
-.purchase-main {
-}
-
-/* 右列 */
 .purchase-sidebar {
     position: sticky;
     top: 40px;
 }
-
-/* --- 左列の要素 --- */
 
 .purchase-item {
     display: flex;
@@ -101,8 +95,6 @@
     font-size: 14px;
 }
 
-/* --- 右列の要素 --- */
-
 .purchase-summary {
     border: 1px solid #000000;
     border-radius: 5px;
@@ -119,9 +111,6 @@
 
 .purchase-summary__row+.purchase-summary__row {
     border-top: 1px solid #000000;
-}
-
-.purchase-summary__label {
 }
 
 .purchase-summary__value {
@@ -148,4 +137,93 @@
 
 .purchase-form__submit-btn:hover {
     background-color: #ee4444;
+}
+
+@media (min-width: 851px) and (max-width: 1200px) {
+    .purchase-content {
+        grid-template-columns: 1fr 340px;
+        font-size: 18px;
+    }
+
+    .purchase-summary__row {
+        padding: 0 20px;
+    }
+
+    .purchase-summary__value {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 850px) {
+    .purchase-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        max-width: 85%;
+    }
+
+    .purchase-sidebar {
+        position: static;
+        top: auto;
+    }
+
+    .purchase-item__body {
+        margin-left: 10px;
+    }
+
+    .purchase-item__name {
+        font-size: 24px;
+    }
+
+    .purchase-item__price {
+        font-size: 24px;
+    }
+
+    .purchase-item__price span {
+        font-size: 20px;
+    }
+
+    .purchase-form__group {
+        padding: 15px 0;
+    }
+
+    .purchase-form__group-title {
+        font-size: 18px;
+    }
+
+    .purchase-form__payment-select {
+        width: 60%;
+        font-size: 16px;
+    }
+
+    .purchase-form__address-change-link {
+        position: static;
+        display: block;
+        text-align: right;
+        margin-top: 10px;
+        font-size: 18px;
+    }
+
+    .purchase-summary {
+        padding: 0;
+    }
+
+    .purchase-summary__row {
+        height: auto;
+        align-items: flex-start;
+        padding: 15px 40px;
+    }
+
+    .purchase-summary__value {
+        font-size: 20px;
+    }
+
+    .purchase-summary__value span {
+        font-size: 16px;
+    }
+
+    .purchase-form__submit-btn {
+        margin-top: 30px;
+        font-size: 20px;
+        padding: 10px;
+    }
 }

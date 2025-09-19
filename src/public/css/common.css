@@ -8,7 +8,7 @@ body {
 
 .header__inner {
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 20px;
     max-width: 1515px;
 }
 
@@ -18,6 +18,13 @@ body {
     justify-content: space-between;
 }
 
+.header-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
 .header__logo {
     display: flex;
     align-items: center;
@@ -25,14 +32,14 @@ body {
 }
 
 .header__logo-image {
-    height: 30px;
-    margin-right: 10px;
+    height: 36px;
+    margin-left: 10px;
 }
 
 .header__search {
     flex-grow: 1;
     max-width: 500px;
-    margin: 0 20px;
+    margin: 0 6px 0 20px;
 }
 
 .header__search input {
@@ -43,10 +50,6 @@ body {
     border-radius: 5px;
     border: 1px solid #fff;
     box-sizing: border-box;
-}
-
-.header-utilities nav {
-    padding-right: 20px;
 }
 
 .header-nav {
@@ -105,4 +108,56 @@ body {
     font-size: 20px;
     margin-top: 5px;
     height: auto;
+}
+
+@media (max-width: 1200px) {
+    .header-utilities {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header-top-row {
+        justify-content: flex-start;
+        gap: 20px;
+    }
+
+    nav {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+        margin: 10px;
+    }
+}
+
+@media (max-width: 850px) {
+    .header__logo-image {
+        height: 30px;
+    }
+
+    .header__search input,
+    .header-nav__link,
+    .header-nav__button,
+    .header-nav__sell-button {
+        font-size: 18px;
+    }
+
+    .header__search input {
+        height: 40px;
+        padding: 0 15px;
+    }
+
+    .header-nav__sell-button {
+        height: 40px;
+        padding: 8px 15px;
+    }
+
+    nav {
+        margin-top: 0;
+    }
+
+    .form__error {
+        font-size: 16px;
+        margin-top: 3px;
+    }
 }

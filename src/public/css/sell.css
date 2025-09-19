@@ -1,48 +1,50 @@
-/* 全体レイアウト */
 .sell-content {
-    max-width: 800px;
+    max-width: 680px;
     margin: 40px auto;
-    padding: 40px;
-    background-color: #fff;
-    border-radius: 8px;
+    font-size: 24px;
 }
 
 .sell-content__title {
     text-align: center;
-    font-size: 45px; /* 変更 */
-    margin-bottom: 30px;
+    font-size: 36px;
+    margin-top: 50px;
+    margin-bottom: 20px
 }
 
-/* フォーム全体 */
 .sell-form {
     display: flex;
     flex-direction: column;
-    gap: 30px;
 }
 
-/* フォームグループ */
 .sell-form__group {
-    border-top: 1px solid #f0f0f0;
     padding-top: 30px;
 }
 
+.sell-form__image-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
 .sell-form__group-title {
-    font-size: 36px; /* 変更 */
-    margin-bottom: 20px;
+    font-size: 30px;
+    color: #5F5F5F;
+    margin: 15px 0;
+    border-bottom: 1px solid #5F5F5F;
+    padding-bottom: 6px;
 }
 
 .sell-form__sub-group {
+    margin-top: 20px;
     margin-bottom: 15px;
 }
 
 .sell-form__label {
     display: block;
     font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 24px; /* 変更 */
+    margin: 35px 0 6px;
 }
 
-/* カテゴリータグ */
 .sell-form__category-tags {
     display: flex;
     flex-wrap: wrap;
@@ -55,104 +57,125 @@
 
 .sell-form__category-tag label {
     display: inline-block;
-    padding: 8px 16px;
-    border: 1px solid #ccc;
+    height: 32px;
+    padding: 3px 16px;
+    margin: 16px 4px;
+    border: 2px solid #FF5555;
     border-radius: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 20px; /* 変更 */
+    font-size: 15px;
+    font-weight: 500;
+    color: #FF5555;
 }
 
-.sell-form__category-tag input[type="checkbox"]:checked + label {
-    background-color: #ff5555; /* 変更 */
+.sell-form__category-tag input[type="checkbox"]:checked+label {
+    background-color: #ff5555;
     color: #fff;
-    border-color: #ff5555; /* 変更 */
+    border-color: #ff5555;
 }
 
-/* 標準入力フィールド */
 .sell-form__input,
 .sell-form__select,
 .sell-form__textarea {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
+    height: 45px;
+    padding: 0 12px;
+    border: 1px solid #5F5F5F;
     border-radius: 5px;
-    font-size: 24px; /* 変更 */
-    box-sizing: border-box;
+    font-size: 20px;
+}
+
+.sell-form__select {
+    margin-top: 10px;
 }
 
 .sell-form__textarea {
     height: 150px;
+    padding: 12px;
     resize: vertical;
 }
 
-/* 画像アップロード */
 .sell-form__image-upload {
-    border: 2px dashed #ccc;
-    padding: 20px;
+    height: 150px;
+    line-height: 150px;
+    border: 1px dashed #5F5F5F;
+    border-radius: 4px;
     text-align: center;
     position: relative;
-    cursor: pointer;
+    margin-bottom: 30px;
 }
+
 
 .sell-form__image-input {
     display: none;
 }
 
 .sell-form__image-label {
-    color: #007bff;
+    display: inline-block;
+    width: 165px;
+    height: 45px;
+    line-height: 45px;
+    color: #ff5555;
     font-weight: bold;
-    font-size: 24px; /* 変更 */
+    font-size: 16px;
+    border: 2px solid #ff5555;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-/* 価格入力 */
+.sell-form__image-label:hover {
+    background-color: #ffebeb;
+}
+
+.sell-form__price label {
+    margin: 4px 0 6px;
+}
+
 .sell-form__price-input-wrapper {
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
+    border: 1px solid #5F5F5F;
     border-radius: 5px;
     padding-left: 12px;
+    margin-bottom: 120px;
 }
 
 .sell-form__currency-symbol {
-    font-size: 24px; /* 変更 */
-    color: #555;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .sell-form__input--price {
     border: none;
     padding: 12px;
-    font-size: 24px; /* 変更 */
+    font-size: 24px;
     width: 100%;
+    height: 45px;
+
 }
 
 .sell-form__input--price:focus {
     outline: none;
 }
 
-/* 送信ボタン */
-.sell-form__submit-btn {
+.form__button-submit {
     width: 100%;
-    padding: 15px;
-    background-color: #ff5555; /* 変更 */
+    height: 60px;
+    margin-bottom: 80px;
+    background-color: #ff5555;
     color: #fff;
     border: none;
     border-radius: 5px;
-    font-size: 30px; /* 変更 */
+    font-size: 26px;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.sell-form__submit-btn:hover {
-    background-color: #ee4444; /* 変更 */
-}
-
-/* エラーメッセージ */
-.sell-form__error {
-    color: #ff5555; /* アプリケーションの赤色に統一 */
-    font-size: 16px;
-    margin-top: 5px;
+.form__button-submit:hover {
+    background-color: #ee4444;
 }
 
 /* 販売価格入力のスピンボタンを非表示にする */

@@ -1,7 +1,6 @@
 .item__content {
     max-width: 1515px;
-    margin: 20px auto;
-    padding: 80px;
+    padding: 100px 80px 80px;
 }
 
 .item__card {
@@ -51,10 +50,6 @@
     font-size: 45px;
     margin-top: 0;
     margin-bottom: 0px;
-}
-
-.item__brand {
-    /* font-size: 20px; */
 }
 
 .item__price,
@@ -268,4 +263,124 @@
     margin-bottom: 10px;
     box-sizing: border-box;
     font-size: 20px;
+}
+
+@media (max-width: 1200px) {
+    .item__content {
+        padding: 60px;
+    }
+
+    .item__info {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 850px) {
+    .item__content {
+        width: 90%;
+        margin: auto;
+    }
+
+    .item__card {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .item__image {
+        max-width: 90%;
+        margin: 40px auto;
+    }
+
+    .item__info {
+        padding-right: 0;
+        margin-left: 0;
+        font-size: 18px;
+    }
+
+    .item__name {
+        font-size: 36px;
+    }
+
+    .item__price {
+        font-size: 36px;
+    }
+
+    .item__price span {
+        font-size: 24px;
+    }
+
+    .item__actions {
+        gap: 10px;
+    }
+
+    .item__counts {
+        padding-left: 0;
+        gap: 20px;
+    }
+
+    .item__purchase-button,
+    .item__comment-form button {
+        font-size: 24px;
+        padding: 10px 20px;
+    }
+
+    .item__description-section h3,
+    .item__info-section h3,
+    .item__comments-section h3 {
+        font-size: 28px;
+    }
+
+    .item__description {
+        font-size: 18px;
+    }
+
+    .item__info-label {
+        font-size: 18px;
+    }
+
+    .item__category {
+        font-size: 16px;
+    }
+
+    .item__condition {
+        font-size: 16px;
+    }
+
+    .comment__user-image {
+        width: 50px;
+        height: 50px;
+    }
+
+    .comment__username {
+        font-size: 1em;
+    }
+
+    .comment__text-area {
+        padding: 8px 10px;
+    }
+
+    .comment__text {
+        font-size: 0.9em;
+    }
+
+    .comment__time {
+        font-size: 0.7em;
+    }
+
+    .comment__form-heading {
+        font-size: 24px;
+    }
+
+    .item__comment-form textarea {
+        font-size: 16px;
+        height: 100px;
+    }
+
+    .item__sold-overlay {
+        top: 10px;
+        left: -35px;
+        width: 130px;
+        font-size: 20px;
+        padding: 5px 0;
+    }
 }
