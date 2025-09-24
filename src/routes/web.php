@@ -27,7 +27,7 @@ Route::get('/', [ItemController::class, 'index'])->name('index'); // トップ�
 Route::get('/item/{item}', [ItemController::class, 'show'])->name('item.show');
 
 // 認証済みユーザーのみアクセスできるルートのグループ
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     // 商品出品
     Route::get('/sell', [SellController::class, 'create'])->name('sell.create');
     Route::post('/sell', [SellController::class, 'store'])->name('sell.store');

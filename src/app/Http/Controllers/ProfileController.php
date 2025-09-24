@@ -49,18 +49,24 @@ class ProfileController extends Controller
     public function show(Request $request)
     {
         $user = Auth::user();
-        $user->load(['profile', 'items.condition', 'items.categories', 'soldItems.item']); // Eager load relationships
+        $user->load([
+            'profile',
+            'items' => function ($query) {
+                $query->orderBy('id', 'desc')->with(['condition', 'categories']);
+            },
+            'soldItems' => function ($query) {
+                $query->orderBy('id', 'desc')->with('item');
+            }
+        ]);
 
-        $displayItems = collect(); // Initialize an empty collection
+        $displayItems = collect();
 
         if ($request->has('page') && $request->get('page') == 'buy') {
-            // Display purchased items
             $displayItems = $user->soldItems->map(function ($soldItem) {
-                return $soldItem->item; // Get the actual item from soldItem record
+                return $soldItem->item;
             });
             $activeTab = 'buy';
         } else {
-            // Default to displaying listed items
             $displayItems = $user->items;
             $activeTab = 'sell';
         }

@@ -1,0 +1,118 @@
+.verify-email__content {
+    margin: 0 auto;
+    padding: 65px 15px;
+    max-width: 1400px;
+}
+
+.verify-email__heading {
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.verify-email-form {
+    margin: 0 auto;
+    max-width: 680px;
+    text-align: center;
+}
+
+.verify-email-form__message {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.verify-email-form__success-message {
+    color: #4CAF50; /* Green for success */
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.form__button {
+    margin-top: 20px;
+    height: 65px;
+}
+
+.form__button-submit {
+    padding: 12px 30px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: #FF5555;
+    color: #fff;
+    cursor: pointer;
+    font-size: 26px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.form__button-submit:hover {
+    background-color: #EE4444;
+}
+
+.login__link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.login__button-submit {
+    color: #0073CC;
+    font-size: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.form__button--auth-link {
+    padding: 12px 50px;
+    width: auto;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+    color: #333;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.form__button--auth-link:hover {
+    background-color: #e7e7e7;
+}
+
+@media (max-width: 850px) {
+    .verify-email__content {
+        padding: 15px;
+        max-width: 80%;
+    }
+
+    .verify-email__heading {
+        font-size: 20px;
+        margin: 30px 0;
+    }
+
+    .verify-email-form {
+        max-width: 90%;
+    }
+
+    .verify-email-form__message {
+        font-size: 14px;
+    }
+
+    .form__button-submit {
+        font-size: 20px;
+        padding: 10px 20px;
+    }
+
+    .login__button-submit {
+        font-size: 16px;
+    }
+
+    .form__button {
+        margin-top: 30px;
+    }
+}

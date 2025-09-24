@@ -62,6 +62,7 @@ class PurchaseController extends Controller
         }
 
         $checkout_session = Session::create([
+            'customer_email' => Auth::user()->email,
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'jpy',

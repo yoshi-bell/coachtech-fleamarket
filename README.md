@@ -47,6 +47,7 @@ chmod -R 777 storage
 ・PHP 8.1.33
 ・Laravel 8.75
 ・MySQL 8.0.26
+・mailhog
 ```
 ## ER図
 
@@ -62,6 +63,7 @@ chmod -R 777 storage
 ・ユーザ登録ページ：/register
 ・ログインページ：/login
 ・phpMyAdmin：http://localhost:8080/
+・mailhog：http://localhost:8025
 ・stripe公式サイト：https://stripe.com/jp
 
 ```
@@ -74,9 +76,6 @@ chmod -R 777 storage
 ユーザーメールアドレス
 test1@example.com
 test2@example.com
-test3@example.com
-test4@example.com
-test5@example.com
 ユーザーパスワード
 全ユーザー：usertest
 
@@ -95,5 +94,33 @@ test5@example.com
 
 
    * 名前:
-      任意の名前で構いません。
+      アルファベットにて任意の名前で構いません。
       (例: TEST TARO)
+
+
+
+ngrokについて
+アカウント作成
+認証トークンを取得
+.envの
+NGROK_AUTHTOKEN=
+に続いて認証トークンを入力
+
+ngrokが正常に機能しているかは、docker-compose
+  psでngrokコンテナのSTATUSがUpになっていること、そしてブラウザでhttp://localhost:4040にアクセスしてWebイン
+  ターフェースが表示され、公開URLが発行されていることで確認できます。
+
+  2. Laravelのキャッシュをクリアするコマンドを再度実行します。
+
+   1     docker-compose exec php php artisan config:clear
+   2     docker-compose exec php php artisan cache:clear
+   3     docker-compose exec php php artisan view:clear
+
+   http://localhost:4040にアクセス
+   公開urlを確認ご.envの
+   APP_URL=
+   に記述
+
+
+
+   mailhog http://localhost:8025

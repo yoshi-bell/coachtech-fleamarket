@@ -13,7 +13,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(
+            \Laravel\Fortify\Contracts\VerifyEmailViewResponse::class,
+            function () {
+                return new class implements \Laravel\Fortify\Contracts\VerifyEmailViewResponse {
+                    public function toResponse($request)
+                    {
+                        return view('auth.verify-email');
+                    }
+                };
+            }
+        );
     }
 
     /**

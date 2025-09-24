@@ -24,7 +24,9 @@ class RegisterController extends Controller
         // ログイン状態にする
         auth()->login($user);
 
-        // ログイン後に指定のページへリダイレクト
-        return redirect('/mypage/profile');
+        $user->sendEmailVerificationNotification();
+
+        // ログイン後にメール認証画面へリダイレクト
+        return redirect()->route('verification.notice');
     }
 }

@@ -3,39 +3,40 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest; // 独自のカスタムリクエストフォーム
-use Illuminate\Http\Request; // Illuminate\Http\Requestを使用
-use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
-use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest; // FortifyのLoginRequestをエイリアス
-use Illuminate\Support\Facades\Validator; // バリデーションのために追加
+use App\Http\Requests\LoginRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class CustomLoginController extends Controller
 {
     /**
      * Handle an incoming authentication request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\LoginRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function login(Request $request) // 引数の型ヒントをIlluminate\Http\Requestに変更
+    public function login(LoginRequest $request)
     {
-        // 1. 私たちのカスタムLoginRequestのルールとメッセージを使ってバリデーションを実行
-        $validator = Validator::make(
-            $request->all(),
-            (new LoginRequest())->rules(),
-            (new LoginRequest())->messages()
-        );
+        $credentials = $request->only('email', 'password');
 
-        $validator->validate(); // バリデーション失敗時は自動的にリダイレクト
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $user = Auth::user();
 
-        // 2. Fortifyが期待するLaravel\Fortify\Http\Requests\LoginRequestのインスタンスを作成
-        $fortifyRequest = new FortifyLoginRequest();
-        $fortifyRequest->setContainer(app()); // コンテナをバインド
-        $fortifyRequest->replace($request->all()); // リクエストデータを設定
+            // MustVerifyEmailインターフェースを実装しているか、かつ、未認証かチェック
+            if ($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
+                // 未認証なら、メールを再送して、ログアウトさせて、認証案内画面へ
+                $user->sendEmailVerificationNotification();
+                return redirect()->route('verification.notice')->with('message', 'ログインする前に、メールを確認して認証を完了してください。新しい認証メールを送信しました。');
+            }
 
-        // 3. Fortifyの認証コントローラーを呼び出して、FortifyのRequestインスタンスを渡す
-        $authController = app(AuthenticatedSessionController::class);
+            // 認証済みなら、通常通りセッションを再生成してリダイレクト
+            $request->session()->regenerate();
+            return redirect()->intended('/');
+        }
 
-        return $authController->store($fortifyRequest); // FortifyのRequestインスタンスを渡す
+        return back()->withErrors([
+            'email' => 'メールアドレスまたはパスワードが正しくありません。',
+        ])->onlyInput('email');
     }
 }
