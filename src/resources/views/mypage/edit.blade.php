@@ -18,7 +18,7 @@
                 @if($user->profile && $user->profile->img_url)
                 <img src="{{ asset('storage/profile_images/' . $user->profile->img_url) }}" alt="プロフィール画像">
                 @else
-                <div class="profile__image-placeholder"></div>
+                <img src="{{ asset('images/placeholder.png') }}" alt="プロフィール画像" class="profile__image-placeholder">
                 @endif
             </div>
             <div class="profile__image-controls">

@@ -11,10 +11,9 @@
             <div class="mypage__profile-image">
                 @if($user->profile && $user->profile->img_url)
                 <img src="{{ asset('storage/profile_images/' . $user->profile->img_url) }}" alt="プロフィール画像">
-                @else
-                <div class="mypage__profile-image-placeholder"></div>
-                @endif
-            </div>
+                            @else
+                            <img src="{{ asset('images/placeholder.png') }}" alt="プロフィール画像" class="mypage__profile-image-placeholder">
+                            @endif            </div>
             <div class="mypage__username">{{ $user->name }}</div>
             <a href="{{ route('profile.edit') }}" class="mypage__edit-button">プロフィールを編集</a>
         </div>

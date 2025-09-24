@@ -62,7 +62,8 @@ class PurchaseController extends Controller
         }
 
         $checkout_session = Session::create([
-            'customer_email' => Auth::user()->email,
+            // 'customer_email' => Auth::user()->email, // 本番用コード（コメントアウト）
+            'customer_email' => 'succeed_immediately@example.com', // テスト用に直接指定
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'jpy',
@@ -98,38 +99,44 @@ class PurchaseController extends Controller
         Stripe::setApiKey(env('STRIPE_SECRET'));
         $session = Session::retrieve($request->query('session_id'));
 
-        // 不正なアクセスやURLの直接入力などを考慮
         if (!$session) {
             return redirect('/')->with('error', '無効なセッションです。');
         }
 
-        // metadataからDB保存に必要な情報を取得
-        $metadata = $session->metadata;
+        // PaymentIntentを取得して支払い方法を特定
+        $paymentIntent = \Stripe\PaymentIntent::retrieve($session->payment_intent);
+        $payment_method_type = $paymentIntent->payment_method_types[0];
 
-        // DBに購入記録を保存
-        try {
-            // 同一商品がほぼ同時に購入されることを防ぐため、ここでも売り切れチェック
-            if ($item->soldItem) {
-                // ここでは購入者に罪はないので、一般的なエラーメッセージが良い
-                return redirect('/')->with('error', '決済処理中に問題が発生しました。商品は購入済みです。');
+        if ($payment_method_type === 'card') {
+            // クレジットカード決済の場合：即時DBに書き込み
+            $metadata = $session->metadata;
+            try {
+                if ($item->soldItem) {
+                    return redirect('/')->with('error', '決済処理中に問題が発生しました。商品は購入済みです。');
+                }
+
+                SoldItem::create([
+                    'item_id' => $metadata->item_id,
+                    'buyer_id' => $metadata->buyer_id,
+                    'postcode' => $metadata->postcode,
+                    'address' => $metadata->address,
+                    'building' => $metadata->building,
+                ]);
+
+                $request->session()->forget('shipping_address_' . $item->id);
+                return redirect()->route('mypage.show', ['page' => 'buy'])->with('message', '商品を購入しました！');
+
+            } catch (\Exception $e) {
+                // データベースエラーなど
+                return redirect('/')->with('error', '購入記録の保存に失敗しました。');
             }
-
-            SoldItem::create([
-                'item_id' => $metadata->item_id,
-                'buyer_id' => $metadata->buyer_id,
-                'postcode' => $metadata->postcode,
-                'address' => $metadata->address,
-                'building' => $metadata->building,
-            ]);
-
-            // 使用した一時的な配送先住所をセッションから削除
-            $request->session()->forget('shipping_address_' . $item->id);
-        } catch (\Exception $e) {
-            // データベースエラーなど
-            // ここでStripeへの返金処理などを将来的に入れることも可能
-            return redirect('/')->with('error', '購入記録の保存に失敗しました。');
+        } elseif ($payment_method_type === 'konbini') {
+            // コンビニ決済の場合：中間ページを表示
+            // 実際のDB書き込みはWebhookで行う
+            return view('purchase.pending', ['item' => $item]);
         }
 
-        return redirect()->route('mypage.show', ['page' => 'buy'])->with('message', '商品を購入しました！');
+        // その他の支払い方法（想定外）
+        return redirect('/')->with('error', '不明な支払い方法です。');
     }
 }

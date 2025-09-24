@@ -75,7 +75,7 @@
                 @forelse($item->comments as $comment)
                 <div class="item__comment-item">
                     <div class="comment__user-info">
-                        <img src="{{ asset('storage/profile_images/' . ($comment->user->profile->img_url ?? 'default_profile.png')) }}" alt="User Profile" class="comment__user-image">
+                        <img src="{{ $comment->user->profile->img_url ? asset('storage/profile_images/' . $comment->user->profile->img_url) : asset('images/placeholder.png') }}" alt="User Profile" class="comment__user-image">
                         <span class="comment__username">{{ $comment->user->name }}</span>
                     </div>
                     <div class="comment__text-area">
