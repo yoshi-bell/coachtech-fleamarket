@@ -227,3 +227,25 @@
         padding: 10px;
     }
 }
+
+/* Custom styles for payment select dropdown */
+.purchase-form__payment-select {
+    width: 265px;
+    height: 30px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #5F5F5F;
+}
+
+.purchase-form__payment-select:focus {
+    outline: none;
+    border-color: #007bff; /* Blue border on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* 
+Note: Styling the <option> elements themselves (e.g., background color of the selected option, adding checkmarks)
+ has very limited and inconsistent support across different browsers.
+ The styles above apply to the main select box, not the dropdown list itself.
+ A fully custom dropdown requires JavaScript.
+*/

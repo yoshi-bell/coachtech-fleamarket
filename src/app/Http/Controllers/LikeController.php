@@ -15,7 +15,7 @@ class LikeController extends Controller
             'item_id' => $item->id,
         ]);
 
-        $item->load('likes'); // いいね情報を再読み込み
+        $item->load('likes');
         $likeCount = $item->likes->count();
 
         return response()->json(['likeCount' => $likeCount]);
@@ -28,7 +28,7 @@ class LikeController extends Controller
             $like->delete();
         }
 
-        $item->load('likes'); // いいね情報を再読み込み
+        $item->load('likes');
         $likeCount = $item->likes->count();
 
         return response()->json(['likeCount' => $likeCount]);

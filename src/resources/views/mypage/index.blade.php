@@ -44,7 +44,6 @@
             </div>
         </a>
         @empty
-        <!-- <p>表示する商品がありません。</p> -->
         @endforelse
     </div>
 </div>

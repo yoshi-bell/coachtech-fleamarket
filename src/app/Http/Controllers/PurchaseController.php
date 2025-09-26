@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\PurchaseRequest;
 use App\Models\Item;
 use App\Models\SoldItem;
 use Illuminate\Support\Facades\Auth;
@@ -31,24 +32,15 @@ class PurchaseController extends Controller
     /**
      * Stripe決済セッションを作成し、リダイレクトする
      */
-    public function store(Request $request, Item $item)
+    public function store(PurchaseRequest $request, Item $item)
     {
         // 商品が既に売却済みか再度チェック
         if ($item->soldItem) {
             return redirect()->route('item.show', $item->id)->with('error', 'この商品は既に売り切れています。');
         }
 
-        // 配送先住所を確定
-        $shipping_address = session('shipping_address_' . $item->id);
-        if (!$shipping_address) {
-            $profile = Auth::user()->profile;
-            if ($profile) {
-                $shipping_address = $profile->only(['postcode', 'address', 'building']);
-            } else {
-                // 住所がない場合はエラーとして購入ページに戻す
-                return redirect()->back()->with('error', '配送先住所が登録されていません。');
-            }
-        }
+        // 配送先住所を確定 (バリデーションはPurchaseRequestで処理済み)
+        $shipping_address = session('shipping_address_' . $item->id) ?? Auth::user()->profile->only(['postcode', 'address', 'building']);
 
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
@@ -62,8 +54,7 @@ class PurchaseController extends Controller
         }
 
         $checkout_session = Session::create([
-            // 'customer_email' => Auth::user()->email, // 本番用コード（コメントアウト）
-            'customer_email' => 'succeed_immediately@example.com', // テスト用に直接指定
+            'customer_email' => Auth::user()->email,
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'jpy',
@@ -107,8 +98,8 @@ class PurchaseController extends Controller
         $paymentIntent = \Stripe\PaymentIntent::retrieve($session->payment_intent);
         $payment_method_type = $paymentIntent->payment_method_types[0];
 
-        if ($payment_method_type === 'card') {
-            // クレジットカード決済の場合：即時DBに書き込み
+        if ($payment_method_type === 'card' || $payment_method_type === 'konbini') {
+            // カード決済またはコンビニ決済（テスト）の場合：即時DBに書き込み
             $metadata = $session->metadata;
             try {
                 if ($item->soldItem) {
@@ -130,10 +121,6 @@ class PurchaseController extends Controller
                 // データベースエラーなど
                 return redirect('/')->with('error', '購入記録の保存に失敗しました。');
             }
-        } elseif ($payment_method_type === 'konbini') {
-            // コンビニ決済の場合：中間ページを表示
-            // 実際のDB書き込みはWebhookで行う
-            return view('purchase.pending', ['item' => $item]);
         }
 
         // その他の支払い方法（想定外）

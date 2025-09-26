@@ -17,10 +17,8 @@ class CommentController extends Controller
             'comment' => $request->input('comment'),
         ]);
 
-        // フロントエンドでユーザー名などを表示できるよう、userとprofileリレーションを読み込む
         $newComment = Comment::with('user.profile')->find($comment->id);
 
-        // 更新後の総コメント数を取得
         $commentCount = $item->comments()->count();
 
         return response()->json([

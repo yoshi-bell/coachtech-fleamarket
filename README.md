@@ -12,20 +12,16 @@
 
 
 Dockerビルド
-1. git clone git@github.com:yoshi-bell/onoe-kadai01.git
-2. docker-compose up -d --build
+- git clone git@github.com:yoshi-bell/coachtech-fleamarket.git
+- docker-compose up -d --build
 
 ＊MySQLは、OSによって起動しない場合があるのでそれぞれのPCに合わせてdocker-compose.ymlファイルを編集してください。
 
 Laravel環境構築
 
-1. docker-compose exec php bash
+- docker-compose exec php bash
 
-1. composer install
-
-＊Stripeダッシュボード（開発者設定 -> APIキー）から、以下のキーを取得
-・テスト用公開可能キー(pk_test_...)
-・テスト用シークレットキー (sk_test_...)
+- composer install
 
 ＊.env.exampleファイルから.envを作成しstripeのAPIキーを設定しその他の環境変数も変更
 ・STRIPE_KEY="pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -34,40 +30,47 @@ Laravel環境構築
 ＊Stripe Webhookシークレットの取得と設定
 ・ターミナルにstripe CLIをインストールしログイン開始
 
-1. stripe login
+- stripe login
 
 ＊上記のコマンド入力後、表示されるURLをブラウザで開きStripeのログイン認証
 
 ＊Webhockの転送を開始
 
-1.stripe listen --forward-to http://localhost/api/webhook/stripe
+- stripe listen --forward-to http://localhost/api/webhook/stripe
 
 ＊表示されたwhsec_...で始まるシークレットキーを.envファイルに設定
 STRIPE_WEBHOOK_SECRET="whsec_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-1. php artisan key:generate
+**注意:** 開発中に `stripe listen` コマンドを再実行するたびに、新しいシークレットキーが発行されることがあります。その都度、`.env` ファイルの `STRIPE_WEBHOOK_SECRET` の値を更新してください。
 
-1. php artisan migrate
+- php artisan key:generate
 
-1. php artisan db:seed
+- php artisan migrate
+
+- php artisan setup:copy-images
+＊このコマンドは、初期データ投入（シーディング）で使用されるダミーの画像ファイルを、適切なディレクトリにコピーするために実行します。
+
+- php artisan db:seed
 
 ＊シーディングにより、商品のダミーデータ10種類、ユーザーのダミーデータ5件がデータベースに入力されます。
 
 ＊アップロードされたファイルをWebからアクセス可能にするためシンボリックリンクを作成。
 
-1. php artisan storage:link
+- php artisan storage:link
 
 ＊"The stream or file could not be opened"エラーが発生した場合
 srcディレクトリにあるstorageディレクトリに権限を設定
 
-chmod -R 777 storage
+- chmod -R 777 storage
+＊注意: `777`は全てのユーザーに読み書き実行を許可する最も緩い権限設定です。これはローカル開発環境での権限問題を簡易的に解決するためのもので、本番環境では使用しないでください。
 
 ```
 ## アプリケーションの機能
 
+```
 このアプリケーションは、フリマサイトを管理するためのシステムです。
 主な機能は以下の通りです。
-```
+
 -   **会員登録・ログイン機能**:
     *   ユーザーはメールアドレスとパスワードで会員登録・ログインが可能です。
     *   **メール認証機能**: 新規会員登録時にメール認証を行い、未認証ユーザーは保護されたページにアクセスできません。
@@ -121,51 +124,33 @@ chmod -R 777 storage
 ・Stripe公式サイト：https://stripe.com/jp
 ・Stripeテストダッシュボード：https://dashboard.stripe.com/test/dashboard
 ```
-ディスクがWebからアクセスできるようにシンボリックリンクを作成してください。
 
-   1     php artisan storage:link
+## 決済機能のテスト方法
 
+### テスト用アカウント
 
-ダミーデータユーザー
-ユーザーメールアドレス
-test1@example.com
-test2@example.com
-ユーザーパスワード
-全ユーザー：usertest
+シーディングによって作成されるダミーユーザーのパスワードは、全ユーザー共通で以下に設定されています。
 
+-   **パスワード:** `usertest`
 
+出品商品のダミーデータは、主に以下の2ユーザーに紐づけられています。
+-   `test1@example.com`
+-   `test2@example.com`
 
+### クレジットカード決済
 
-stripenについて---------------------------
-クレジットカード支払い時
-* カード番号:
-      4242 4242 4242 4242
-      ( 4242 を4回繰り返します。これはテスト用のVisaカードとして認識されます。)
+Stripeのテスト環境では、実際のカード情報なしで決済フローをシミュレートできます。テスト用のクレジットカードとして、以下の情報を使用してください。
 
-   * 有効期限:
-      未来の日付であれば、何でも構いません。
-      (例: 12 / 25)
+-   **カード番号:** `4242 4242 4242 4242` (Visaのテストカード)
+-   **有効期限:** 未来の日付 (例: `12/25`)
+-   **CVC:** 任意の3桁の数字 (例: `123`)
+-   **名前:** 任意 (例: `TARO TEST`)
 
-   * CVC（セキュリティコード）:
-      3桁の数字であれば、何でも構いません。
-      (例: 123)
+### コンビニ決済
 
+コンビニ決済のテストでは、支払い情報の入力画面で**以下のテスト用メールアドレスを使用する**ことで、支払いを即座に成功させ、購入を完了するシミュレーションが可能です。
 
-   * 名前:
-      アルファベットにて任意の名前で構いません。
-      (例: TEST TARO)
+-   **テスト用メールアドレス:** `succeed_immediately@example.com`
 
+このメールアドレスを入力して支払いを確定すると、Stripeは即座に支払い成功の通知（Webhook）をアプリケーションに送信します。これにより、実際にコンビニで支払うことなく、購入完了のロジックをテストできます。
 
-
-
-
-
-   4. 開発環境でのStripe CLIの使用:
-       * stripe listen コマンドを再実行するたびに、新しいシークレットキーが発行されることがあ
-         ります。これは、ローカル開発環境でのセキュリティを確保するためです。
-       * このため、開発中に `stripe listen` を起動し直すたびに、`.env` ファイルの
-         `STRIPE_WEBHOOK_SECRET` の値を更新する必要がある場合が多いです。
-
-  これらのシナリオでキーが変更された場合は、アプリケーション側の .env
-  ファイルに設定されている STRIPE_WEBHOOK_SECRET
-  の値も、新しいキーに合わせて更新する必要があります。

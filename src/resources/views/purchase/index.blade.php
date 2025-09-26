@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<form action="{{ route('purchase.store', $item->id) }}" method="post" class="purchase-form-wrapper">
+<form action="{{ route('purchase.store', $item->id) }}" method="post" class="purchase-form-wrapper" novalidate>
     @csrf
     <div class="purchase-content">
         <div class="purchase-main">
@@ -23,9 +23,13 @@
                 <h3 class="purchase-form__group-title">支払い方法</h3>
                 <div class="purchase-form__payment-select-wrapper">
                     <select name="payment_method" class="purchase-form__payment-select" id="payment-method-select">
-                        <option value="1">コンビニ払い</option>
-                        <option value="2">クレジットカード</option>
+                        <option value="" disabled {{ old('payment_method') ? '' : 'selected' }}>選択してください</option>
+                        <option value="1" {{ old('payment_method') == '1' ? 'selected' : '' }}>コンビニ払い</option>
+                        <option value="2" {{ old('payment_method') == '2' ? 'selected' : '' }}>カード支払い</option>
                     </select>
+                    @error('payment_method')
+                        <div class="form__error">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
@@ -53,6 +57,9 @@
                     <a href="{{ route('profile.edit') }}" class="purchase-form__address-add-link">登録はこちら</a>
                     @endif
                 </div>
+                @error('shipping_address')
+                    <div class="form__error">{{ $message }}</div>
+                @enderror
             </div>
         </div>
 
@@ -64,7 +71,13 @@
                 </div>
                 <div class="purchase-summary__row">
                     <span class="purchase-summary__label">支払い方法</span>
-                    <span class="purchase-summary__value" id="payment-method-display">コンビニ払い</span>
+                    <span class="purchase-summary__value" id="payment-method-display">
+                        @if(old('payment_method') == '2')
+                            カード支払い
+                        @else
+                            コンビニ払い
+                        @endif
+                    </span>
                 </div>
             </div>
             <button type="submit" class="purchase-form__submit-btn">購入する</button>

@@ -194,7 +194,6 @@
 @media (max-width: 850px) {
     .sell-content {
         max-width: 70%;
-        /* margin: 20px auto; */
         font-size: 18px;
     }
 
@@ -223,7 +222,6 @@
 
     .sell-form__category-tag label{
         margin: 4px;
-        /* font-size: 12px; */
     }
 
     .sell-form__input,
@@ -235,10 +233,6 @@
 
     .sell-form__textarea {
         height: 120px;
-    }
-
-    .sell-form__price-input-wrapper {
-        /* margin-bottom: 60px; */
     }
 
     .sell-form__currency-symbol,

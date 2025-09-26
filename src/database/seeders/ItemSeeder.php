@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\Item;
+use App\Models\User;
 
 class ItemSeeder extends Seeder
 {
@@ -15,9 +16,17 @@ class ItemSeeder extends Seeder
      */
     public function run()
     {
+        $users = User::take(2)->get();
+
+        if ($users->count() < 2) {
+            // Handle case where there are not enough users
+            // For now, we can just return or throw an exception
+            return;
+        }
+
         $itemsData = [
             [
-                'seller_id' => 1,
+                'seller_id' => $users[0]->id,
                 'condition_id' => 1,
                 'name' => '腕時計',
                 'brand' => 'Rolax',
@@ -28,7 +37,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'seller_id' => 2,
+                'seller_id' => $users[1]->id,
                 'condition_id' => 2,
                 'name' => 'HDD',
                 'brand' => '西芝',
@@ -39,7 +48,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'seller_id' => 2,
+                'seller_id' => $users[1]->id,
                 'condition_id' => 3,
                 'name' => '玉ねぎ3束',
                 'brand' => 'なし',
@@ -50,7 +59,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'seller_id' => 1,
+                'seller_id' => $users[0]->id,
                 'condition_id' => 4,
                 'name' => '革靴',
                 'brand' => null,
@@ -61,7 +70,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'seller_id' => 1,
+                'seller_id' => $users[0]->id,
                 'condition_id' => 1,
                 'name' => 'ノートPC',
                 'brand' => null,
@@ -72,7 +81,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'seller_id' => 1,
+                'seller_id' => $users[0]->id,
                 'condition_id' => 2,
                 'name' => 'マイク',
                 'brand' => 'なし',
@@ -83,7 +92,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'seller_id' => 2,
+                'seller_id' => $users[1]->id,
                 'condition_id' => 3,
                 'name' => 'ショルダーバッグ',
                 'brand' => null,
@@ -94,7 +103,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'seller_id' => 2,
+                'seller_id' => $users[1]->id,
                 'condition_id' => 4,
                 'name' => 'タンブラー',
                 'brand' => 'なし',
@@ -105,7 +114,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'seller_id' => 2,
+                'seller_id' => $users[1]->id,
                 'condition_id' => 1,
                 'name' => 'コーヒーミル',
                 'brand' => 'Starbacks',
@@ -116,7 +125,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'seller_id' => 2,
+                'seller_id' => $users[1]->id,
                 'condition_id' => 2,
                 'name' => 'メイクセット',
                 'brand' => null,

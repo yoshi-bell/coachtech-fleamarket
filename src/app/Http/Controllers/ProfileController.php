@@ -21,16 +21,12 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        // ユーザー名の更新
         $user->name = $request->name;
         $user->save();
 
-        // プロフィールの更新または新規作成
         $profile = $user->profile ?? new Profile(['user_id' => $user->id]);
 
-        // 画像アップロードの処理
         if ($request->hasFile('img_url')) {
-            // 古い画像があれば削除
             if ($profile->img_url && Storage::disk('public')->exists('profile_images/' . $profile->img_url)) {
                 Storage::disk('public')->delete('profile_images/' . $profile->img_url);
             }
