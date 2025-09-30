@@ -38,6 +38,6 @@ class SellController extends Controller
         // カテゴリーを紐付け
         $item->categories()->attach($validated['category_ids']);
 
-        return redirect()->route('item.show', $item->id)->with('success', '商品を出品しました。');
+        return redirect()->route('mypage.show', ['page' => 'sell'])->with('success', '商品を出品しました。');
     }
 }

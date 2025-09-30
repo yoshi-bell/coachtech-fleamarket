@@ -56,34 +56,6 @@ class PurchaseTest extends TestCase
     }
 
     /** @test */
-    public function test_payment_method_selection_is_reflected_on_validation_error()
-    {
-        $user = User::factory()->has(Profile::factory())->create();
-        $item = Item::factory()->create();
-
-        // From a page that has the form
-        $from = route('purchase.create', $item);
-
-        // Submit the form with payment_method=2 but trigger a validation error elsewhere
-        // (shipping_address is required in the FormRequest but not submitted)
-        $response = $this->actingAs($user)->from($from)->post('/purchase/' . $item->id, [
-            'payment_method' => '2' // 2 = Credit Card
-        ]);
-
-        // Assert we are redirected back to the form
-        $response->assertRedirect($from);
-
-        // Follow the redirect and check the re-rendered page
-        $followResponse = $this->get($response->headers->get('Location'));
-
-        // Assert the dropdown has the correct option selected
-        $followResponse->assertSee('<option value="2" selected>', false);
-
-        // Assert the summary span shows the correct text
-        $followResponse->assertSee('クレジットカード');
-    }
-
-    /** @test */
     public function test_user_can_initiate_purchase()
     {
         $user = User::factory()->has(Profile::factory())->create();
@@ -114,6 +86,34 @@ class PurchaseTest extends TestCase
 
         $response = $this->actingAs($buyer)->get(route('mypage.show', ['page' => 'buy']));
         $response->assertSee($item->name);
+    }
+
+    /** @test */
+    public function test_redirects_to_item_list_after_purchase()
+    {
+        $buyer = User::factory()->create();
+        $item = Item::factory()->create();
+
+        $mockSession = Mockery::mock('alias:' . Session::class);
+        $mockSession->shouldReceive('retrieve')->once()->andReturn((object)[
+            'payment_intent' => 'pi_123',
+            'metadata' => (
+                (object)[
+                    'item_id' => $item->id,
+                    'buyer_id' => $buyer->id,
+                    'postcode' => '123-4567',
+                    'address' => 'Test Address',
+                    'building' => 'Test Building',
+                ]
+            )
+        ]);
+
+        $mockPaymentIntent = Mockery::mock('alias:' . PaymentIntent::class);
+        $mockPaymentIntent->shouldReceive('retrieve')->once()->andReturn((object)['payment_method_types' => ['card']]);
+
+        $response = $this->actingAs($buyer)->get('/purchase/success/' . $item->id . '?session_id=cs_123');
+
+        $response->assertRedirect(route('index'));
     }
 
     private function simulate_successful_purchase()

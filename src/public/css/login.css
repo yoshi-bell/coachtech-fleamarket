@@ -116,3 +116,23 @@
         margin-top: 40px;
     }
 }
+@media (max-width: 550px) {
+    .login-form__content{
+        max-width: 90%;
+    }
+    .login-form__heading{
+        margin: 15px 0;
+    }
+    .login-form__heading h2{
+        margin: 0;
+    }
+    .form{
+        margin-top: 30px;
+    }
+    .form__group{
+        margin-top: 0;
+    }
+    .form__button{
+        margin-top: 20px;
+    }
+}

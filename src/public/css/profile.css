@@ -133,7 +133,7 @@
 
     .profile__heading {
         font-size: 20px;
-        margin: 30px 0;
+        margin: 25px 0;
     }
 
     .form {
@@ -181,5 +181,16 @@
 
     .form__button {
         margin-top: 40px;
+    }
+}
+@media (max-width: 550px) {
+    .form{
+        max-width: 80%;
+    }
+    .profile__image-group{
+        flex-direction: column;
+    }
+    .form__button {
+        margin-top: 20px;
     }
 }

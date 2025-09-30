@@ -3,127 +3,108 @@
 
 ## 環境構築
 
-```
-前提条件
-* Git
-* Docker
-* Stripeアカウントを持っていること。
-* StripeダッシュボードからAPIキー（公開可能キーとシークレットキー）を取得できること。
+### 前提条件
+- Git
+- Docker
+>コンビニ支払いのテストをする場合は以下の条件も満たす必要があります。
+- Stripeアカウントを持っていること。
+- StripeダッシュボードからAPIキー（公開可能キーとシークレットキー）を取得できること。
 
+### Dockerビルド
+- `git clone git@github.com:yoshi-bell/coachtech-fleamarket.git`
+- `docker-compose up -d --build`
 
-Dockerビルド
-- git clone git@github.com:yoshi-bell/coachtech-fleamarket.git
-- docker-compose up -d --build
+> MySQLは、OSによって起動しない場合があるのでそれぞれのPCに合わせてdocker-compose.ymlファイルを編集してください。
 
-＊MySQLは、OSによって起動しない場合があるのでそれぞれのPCに合わせてdocker-compose.ymlファイルを編集してください。
+### Laravel環境構築
 
-Laravel環境構築
+- コンテナに入る
+  - `docker-compose exec php bash`
+- パッケージのインストール
+  - `composer install`
+- (コンビニ支払いテストをする場合)Stripe APIキーの設定
+  - `.env.example` ファイルから `.env` ファイルを作成します。
+  - Stripeダッシュボード（開発者設定 -> APIキー）から取得した以下のキーとその他の環境変数を設定します。
+    - `STRIPE_KEY="pk_test_..."`
+    - `STRIPE_SECRET="sk_test_..."`
+- (コンビニ支払いテストをする場合)　Stripe Webhookのセットアップ
+  - ターミナルに`stripeCLI`をインストールする。
+  - `stripe login` を実行し、表示されたURLよりブラウザで認証します。
+  - `stripe listen --forward-to http://localhost/api/webhook/stripe` を実行します。
+  - 表示されたWebhookシークレット (`whsec_...`) を`.env`ファイルに設定します。
+    - `STRIPE_WEBHOOK_SECRET="whsec_..."`
+    > **注意:** `stripe listen` を再実行すると新しいシークレットキーが発行されることが、その際は改めて`.env`を更新してください。
+- アプリケーションキーの生成
+  - `php artisan key:generate`
+- データベースのマイグレーション
+  - `php artisan migrate`
+- ダミー画像のコピー
+  - `php artisan setup:copy-images`
+    > このコマンドは、初期データ投入（シーディング）で使用されるダミーの画像ファイルを、適切なディレクトリにコピーするために実行します。
+- データベースの初期データ投入
+  - `php artisan db:seed`
+    > シーディングにより、商品のダミーデータ10種類、ユーザーのダミーデータ5件がデータベースに入力されます。
+- ストレージのシンボリックリンク作成
+  - `php artisan storage:link`
+- （任意）`storage`ディレクトリの権限設定
+     - "The stream or file could not be opened"エラーが発生した場合に実行します。
+  - `chmod -R 777 storage`
+    > **注意:** `777`は全てのユーザーに読み書き実行を許可する最も緩い権限設定です。これはローカル開発環境での権限問題を簡易的に解決するためのもので、本番環境では使用しないでください。
 
-- docker-compose exec php bash
-
-- composer install
-
-＊.env.exampleファイルから.envを作成しstripeのAPIキーを設定しその他の環境変数も変更
-・STRIPE_KEY="pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-・STRIPE_SECRET="sk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
-＊Stripe Webhookシークレットの取得と設定
-・ターミナルにstripe CLIをインストールしログイン開始
-
-- stripe login
-
-＊上記のコマンド入力後、表示されるURLをブラウザで開きStripeのログイン認証
-
-＊Webhockの転送を開始
-
-- stripe listen --forward-to http://localhost/api/webhook/stripe
-
-＊表示されたwhsec_...で始まるシークレットキーを.envファイルに設定
-STRIPE_WEBHOOK_SECRET="whsec_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
-**注意:** 開発中に `stripe listen` コマンドを再実行するたびに、新しいシークレットキーが発行されることがあります。その都度、`.env` ファイルの `STRIPE_WEBHOOK_SECRET` の値を更新してください。
-
-- php artisan key:generate
-
-- php artisan migrate
-
-- php artisan setup:copy-images
-＊このコマンドは、初期データ投入（シーディング）で使用されるダミーの画像ファイルを、適切なディレクトリにコピーするために実行します。
-
-- php artisan db:seed
-
-＊シーディングにより、商品のダミーデータ10種類、ユーザーのダミーデータ5件がデータベースに入力されます。
-
-＊アップロードされたファイルをWebからアクセス可能にするためシンボリックリンクを作成。
-
-- php artisan storage:link
-
-＊"The stream or file could not be opened"エラーが発生した場合
-srcディレクトリにあるstorageディレクトリに権限を設定
-
-- chmod -R 777 storage
-＊注意: `777`は全てのユーザーに読み書き実行を許可する最も緩い権限設定です。これはローカル開発環境での権限問題を簡易的に解決するためのもので、本番環境では使用しないでください。
-
-```
 ## アプリケーションの機能
 
-```
-このアプリケーションは、フリマサイトを管理するためのシステムです。
-主な機能は以下の通りです。
+このアプリケーションは、フリマサイトを管理するためのシステムです。主な機能は以下の通りです。
 
 -   **会員登録・ログイン機能**:
-    *   ユーザーはメールアドレスとパスワードで会員登録・ログインが可能です。
-    *   **メール認証機能**: 新規会員登録時にメール認証を行い、未認証ユーザーは保護されたページにアクセスできません。
-    *   認証メールの再送機能も備えています。
+    -   ユーザーはメールアドレスとパスワードで会員登録・ログインが可能です。
+    -   **メール認証機能**: 新規会員登録時にメール認証を行い、未認証ユーザーは保護されたページにアクセスできません。
+    -   認証メールの再送機能も備えています。
 -   **商品一覧表示**:
-    *   全商品の表示、商品画像、商品名、価格の表示。
-    *   購入済み商品は「Sold」と表示されます。
-    *   いいねした商品や購入した商品の一覧も確認できます。
+    -   全商品の表示、商品画像、商品名、価格の表示。
+    -   購入済み商品は「Sold」と表示されます。
+    -   いいねした商品や購入した商品の一覧も確認できます。
 -   **商品検索機能**:
-    *   商品名での部分一致検索が可能です。
+    -   商品名での部分一致検索が可能です。
 -   **商品詳細の確認**:
-    *   商品画像、商品名、ブランド名、価格、いいね数、コメント数、商品説明、商品情報（カテゴリ、商品の状態）などを確認できます。
-    *   **いいね機能**: 商品に「いいね」を付けたり解除したりできます。
-    *   **コメント機能**: ログインユーザーのみがコメントを送信でき、コメントのバリデーションも実装されています。
+    -   商品画像、商品名、ブランド名、価格、いいね数、コメント数、商品説明、商品情報（カテゴリ、商品の状態）などを確認できます。
+    -   **いいね機能**: 商品に「いいね」を付けたり解除したりできます。
+    -   **コメント機能**: ログインユーザーのみがコメントを送信でき、コメントのバリデーションも実装されています。
 -   **商品購入機能**:
-    *   **Stripe決済**: クレジットカード決済とコンビニ決済に対応しています。
-    *   **コンビニ決済**: 非同期処理に対応し、Webhookを通じて支払い完了を検知し、購入記録をデータベースに保存します。
-    *   配送先住所の変更も可能です。
-    *   購入した商品は「Sold」と表示され、マイページの購入履歴に追加されます。
+    -   **Stripe決済**: クレジットカード決済とコンビニ決済に対応しています。
+    -   **コンビニ決済**: 非同期処理に対応し、Webhookを通じて支払い完了を検知し、購入記録をデータベースに保存します。
+    -   配送先住所の変更も可能です。
+    -   購入した商品は「Sold」と表示され、マイページの購入履歴に追加されます。
 -   **プロフィール管理**:
-    *   ユーザーは自身のプロフィール（画像、ユーザー名、出品商品、購入商品）を確認できます。
-    *   プロフィール画像、ユーザー名、郵便番号、住所、建物名の編集が可能です。
+    -   ユーザーは自身のプロフィール（画像、ユーザー名、出品商品、購入商品）を確認できます。
+    -   プロフィール画像、ユーザー名、郵便番号、住所、建物名の編集が可能です。
 -   **商品出品機能**:
-    *   商品画像、カテゴリ（複数選択可）、商品の状態、商品名、ブランド名、商品説明、販売価格を登録できます。
-    *   商品画像のアップロード機能も備えています。
-```
+    -   商品画像、カテゴリ（複数選択可）、商品の状態、商品名、ブランド名、商品説明、販売価格を登録できます。
+    -   商品画像のアップロード機能も備えています。
+
 ## 使用技術
-```
-・PHP 8.1.33
-・Laravel 8.75
-・MySQL 8.0.26
-・Laravel Fortify (認証基盤)
-・mailhog (メールテスト)
-・Stripe (決済API)
-・Stripe CLI (Webhookテスト)
-```
+- PHP 8.1.33
+- Laravel 8.75
+- MySQL 8.0.26
+- Laravel Fortify (認証基盤)
+- mailhog (メールテスト)
+- Stripe (決済API)
+- Stripe CLI (Webhookテスト)
+
 ## ER図
 
 ![ER図](ER.drawio.png)
 
 ## URL
-```
-・開発環境トップページ：http://localhost/
-・会員登録ページ：http://localhost/register
-・ログインページ：http://localhost/login
-・マイページ：http://localhost/mypage
-・商品出品ページ：http://localhost/sell
-・メール認証誘導画面：http://localhost/email/verify
-・phpMyAdmin：http://localhost:8080/
-・MailHog：http://localhost:8025
-・Stripe公式サイト：https://stripe.com/jp
-・Stripeテストダッシュボード：https://dashboard.stripe.com/test/dashboard
-```
+- 開発環境トップページ: `http://localhost/`
+- 会員登録ページ: `http://localhost/register`
+- ログインページ: `http://localhost/login`
+- マイページ: `http://localhost/mypage`
+- 商品出品ページ: `http://localhost/sell`
+- メール認証誘導画面: `http://localhost/email/verify`
+- phpMyAdmin: `http://localhost:8080/`
+- MailHog: `http://localhost:8025`
+- Stripe公式サイト: `https://stripe.com/jp`
+- Stripeテストダッシュボード: `https://dashboard.stripe.com/test/dashboard`
 
 ## 決済機能のテスト方法
 
@@ -148,9 +129,13 @@ Stripeのテスト環境では、実際のカード情報なしで決済フロ�
 
 ### コンビニ決済
 
-コンビニ決済のテストでは、支払い情報の入力画面で**以下のテスト用メールアドレスを使用する**ことで、支払いを即座に成功させ、購入を完了するシミュレーションが可能です。
+コンビニ決済のテストでは、ターミナルにてStripeにログインし、`stripe listen --forward-to http://localhost/api/webhook/stripe`のコマンドを実行し、Stripe CLIを「リスニングモード」を実行中にする必要があります。（そうすることでStripeからWebhookイベント（例：決済成功、返金、顧客作成など）を監視し、ローカルサーバーに転送することできます。）
+
+そして支払い情報の入力画面で**以下のテスト用メールアドレスを使用する**ことで、支払いを即座に成功させ、購入を完了するシミュレーションが可能です。
 
 -   **テスト用メールアドレス:** `succeed_immediately@example.com`
 
 このメールアドレスを入力して支払いを確定すると、Stripeは即座に支払い成功の通知（Webhook）をアプリケーションに送信します。これにより、実際にコンビニで支払うことなく、購入完了のロジックをテストできます。
+
+> stripeの支払い完了後、ブラウザの戻るボタンを使用にアプリケーションに戻る必要があります。
 

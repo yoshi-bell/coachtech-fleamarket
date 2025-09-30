@@ -54,7 +54,6 @@ class PurchaseController extends Controller
         }
 
         $checkout_session = Session::create([
-            'customer_email' => Auth::user()->email,
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'jpy',
@@ -115,7 +114,7 @@ class PurchaseController extends Controller
                 ]);
 
                 $request->session()->forget('shipping_address_' . $item->id);
-                return redirect()->route('mypage.show', ['page' => 'buy'])->with('message', '商品を購入しました！');
+                return redirect()->route('index')->with('message', '商品を購入しました！');
 
             } catch (\Exception $e) {
                 // データベースエラーなど

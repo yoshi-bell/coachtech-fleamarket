@@ -16,9 +16,9 @@
         <div class="form__group profile__image-group">
             <div class="profile__image-preview">
                 @if($user->profile && $user->profile->img_url)
-                <img src="{{ asset('storage/profile_images/' . $user->profile->img_url) }}" alt="プロフィール画像">
+                <img src="{{ asset('storage/profile_images/' . $user->profile->img_url) }}" alt="プロフィール画像" id="image-preview">
                 @else
-                <img src="{{ asset('images/placeholder.png') }}" alt="プロフィール画像" class="profile__image-placeholder">
+                <img src="{{ asset('images/placeholder.png') }}" alt="プロフィール画像" class="profile__image-placeholder" id="image-preview">
                 @endif
             </div>
             <div class="profile__image-controls">
@@ -101,4 +101,27 @@
         </div>
     </form>
 </div>
+@endsection
+
+@section('js')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('img_url');
+        const imagePreview = document.getElementById('image-preview');
+
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    // If the placeholder class was on the img, remove it to ensure correct styling
+                    imagePreview.classList.remove('profile__image-placeholder');
+                }
+
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+    });
+</script>
 @endsection

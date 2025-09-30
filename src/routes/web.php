@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddressController;
-use App\Http\Controllers\Auth\CustomLoginController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ItemController;
@@ -34,8 +34,10 @@ Route::get('/item/{item}', [ItemController::class, 'show'])->name('item.show');
 //==============================================================
 // Note: Standard Fortify routes for login (GET), register (GET), logout etc. are handled by Fortify.
 // These are the custom implementations for the POST actions.
-Route::post('/register', RegisterController::class);
-Route::post('/custom-login', [CustomLoginController::class, 'login'])->name('custom.login');
+////RequestFormによるバリデーションを行ってからFortifyによる会員登録のためのカスタムルート
+Route::post('/register', RegisterController::class)->name('register');
+//RequestFormによるバリデーションを行ってからFortifyによるログインのためのカスタムルート
+Route::post('/custom-login', LoginController::class)->name('custom.login');
 
 
 //==============================================================

@@ -106,12 +106,22 @@
     margin-bottom: 10px;
 }
 
+#image-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 
 .sell-form__image-input {
     display: none;
 }
 
 .sell-form__image-label {
+    position: relative; /* To allow z-index to work */
+    z-index: 2;
     display: inline-block;
     width: 165px;
     height: 45px;
@@ -123,6 +133,7 @@
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.8); /* Add a slight background to make it readable on images */
 }
 
 .sell-form__image-label:hover {
@@ -244,5 +255,16 @@
         height: 50px;
         font-size: 20px;
         margin: 60px 0;
+    }
+}
+@media (max-width: 550px) {
+    .sell-content{
+        max-width: 80%;
+    }
+    .sell-form__category-tags{
+        gap: 5px;
+    }
+    .form__button-submit{
+        margin: 30px 0;
     }
 }

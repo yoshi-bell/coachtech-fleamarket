@@ -116,3 +116,12 @@
         margin-top: 30px;
     }
 }
+@media (max-width: 550px) {
+    .verify-email__content{
+        max-width: 90%;
+    }
+    .form__button--auth-link{
+        font-size: 18px;
+        padding: 15px 30px;
+    }
+}

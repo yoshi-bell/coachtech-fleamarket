@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Actions\Fortify\CreateNewUser;
-use App\Http\Requests\RegisterRequest; // ここに作成したリクエストフォームをインポート
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -24,6 +23,7 @@ class RegisterController extends Controller
         // ログイン状態にする
         auth()->login($user);
 
+        //認証メールを送信
         $user->sendEmailVerificationNotification();
 
         // ログイン後にメール認証画面へリダイレクト

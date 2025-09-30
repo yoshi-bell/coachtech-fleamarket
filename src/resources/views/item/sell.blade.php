@@ -12,7 +12,8 @@
         <div class="sell-form__group">
             <h3 class="sell-form__image-title">商品画像</h3>
             <div class="sell-form__image-upload">
-                <input type="file" id="img_url" name="img_url" class="sell-form__image-input">
+                <img id="image-preview" src="#" alt="Image preview" style="display: none;">
+                <input type="file" id="img_url" name="img_url" class="sell-form__image-input" accept="image/jpeg,image/png">
                 <label for="img_url" class="sell-form__image-label">画像を選択する</label>
             </div>
             @error('img_url')
@@ -89,4 +90,26 @@
         <button type="submit" class="form__button-submit">出品する</button>
     </form>
 </div>
+@endsection
+
+@section('js')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('img_url');
+        const imagePreview = document.getElementById('image-preview');
+
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+    });
+</script>
 @endsection

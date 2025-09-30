@@ -55,6 +55,6 @@ class ListItemTest extends TestCase
         $this->assertCount(2, $item->categories);
         Storage::disk('public')->assertExists('item_images/' . $file->hashName());
 
-        $response->assertRedirect(route('item.show', $item));
+        $response->assertRedirect(route('mypage.show', ['page' => 'sell']));
     }
 }

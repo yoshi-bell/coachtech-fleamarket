@@ -28,9 +28,9 @@
 .item-list__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-    gap: 5px;
+    gap: 40px;
     max-width: 1515px;
-    margin: 50px 5px 30px 20px;
+    margin: 50px 40px 30px 60px;
 }
 
 .item-card {
@@ -44,8 +44,7 @@
 }
 
 .item-card__image {
-    width: 290px;
-    height: 290px;
+    max-width: 290px;
     background-color: #f0f0f0;
     display: flex;
     align-items: center;
@@ -87,11 +86,6 @@
     .item-list__grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
-
-    .item-card__image {
-        width: 250px;
-        height: 250px;
-    }
 }
 
 @media (max-width: 850px) {
@@ -111,11 +105,6 @@
         max-width: 100%;
     }
 
-    .item-card__image {
-        width: 200px;
-        height: 200px;
-    }
-
     .item-card__name {
         font-size: 20px;
     }
@@ -126,5 +115,20 @@
         width: 130px;
         font-size: 24px;
         padding: 3px 0;
+    }
+}
+
+@media (max-width: 550px) {
+    .item-list__tabs{
+        justify-content: center;
+        padding: 10px 0 0;
+    }
+        .item-list__tab{
+            margin: 0;
+        }
+
+    .item-list__grid {
+        grid-template-columns: 1fr;
+        justify-items: center;
     }
 }

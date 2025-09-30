@@ -18,7 +18,7 @@
 
 <body>
     <header class="header">
-        <div class="header__inner">
+        <div class="header__inner--auth">
             <div class="header-utilities">
                 <a class="header__logo" href="/">
                     <img src="{{ asset('images/logo.svg') }}" alt="Logo" class="header__logo-image">

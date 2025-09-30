@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <header class="header">
+    <header class="header" id="main-header">
         <div class="header__inner">
             <div class="header-utilities">
                 <div class="header-top-row">
@@ -29,8 +29,18 @@
                             <input type="text" name="keyword" placeholder="なにをお探しですか?" value="{{ request('keyword') }}">
                         </form>
                     </div>
+                    <div class="header__mobile-icons">
+                        <button type="button" id="search-icon-button" class="search-icon-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button type="button" id="hamburger-button" class="hamburger-menu">
+                            <span class="hamburger-menu__bar"></span>
+                            <span class="hamburger-menu__bar"></span>
+                            <span class="hamburger-menu__bar"></span>
+                        </button>
+                    </div>
                 </div>
-                <nav>
+                <nav id="header-nav" class="header-nav-container">
                     <ul class="header-nav">
                         <li class="header-nav__item">
                             @auth
@@ -58,6 +68,25 @@
         @yield('content')
     </main>
     @yield('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mainHeader = document.getElementById('main-header');
+            const hamburgerButton = document.getElementById('hamburger-button');
+            const searchIconButton = document.getElementById('search-icon-button');
+
+            if (hamburgerButton && mainHeader) {
+                hamburgerButton.addEventListener('click', function() {
+                    mainHeader.classList.toggle('mobile-menu-is-open');
+                });
+            }
+
+            if (searchIconButton && mainHeader) {
+                searchIconButton.addEventListener('click', function() {
+                    mainHeader.classList.toggle('search-is-open');
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

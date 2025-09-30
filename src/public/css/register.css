@@ -121,3 +121,20 @@
         margin-top: 40px;
     }
 }
+@media (max-width: 550px) {
+    .register-form__content {
+        max-width: 90%;
+    }
+    .register-form__heading{
+        margin: 15px 0;
+    }
+    .register-form__heading h2{
+        margin: 0;
+    }
+    .form__group{
+        margin-top: 0;
+    }
+    .form__button{
+        margin-top: 20px;
+    }
+}

@@ -23,15 +23,25 @@
             <div class="item__actions">
                 <div class="item__counts">
                     @auth
-                    <form id="like-form" class="item__count-box" data-item-id="{{ $item->id }}" data-is-liked="{{ $isLiked ? 'true' : 'false' }}" novalidate>
-                        @csrf
-                        <button type="submit" class="like-button">
-                            <i id="like-icon" class="far fa-star {{ $isLiked ? 'liked' : '' }}"></i>
-                        </button>
-                        <span id="like-count">{{ $item->likes->count() }}</span>
-                    </form>
+                        @if(Auth::id() == $item->seller_id)
+                        {{-- Seller's view --}}
+                        <div class="item__count-box">
+                            <i class="far fa-star" style="cursor: default;"></i>
+                            <span id="like-count">{{ $item->likes->count() }}</span>
+                        </div>
+                        @else
+                        {{-- Other users' view --}}
+                        <form id="like-form" class="item__count-box" data-item-id="{{ $item->id }}" data-is-liked="{{ $isLiked ? 'true' : 'false' }}" novalidate>
+                            @csrf
+                            <button type="submit" class="like-button">
+                                <i id="like-icon" class="far fa-star {{ $isLiked ? 'liked' : '' }}"></i>
+                            </button>
+                            <span id="like-count">{{ $item->likes->count() }}</span>
+                        </form>
+                        @endif
                     @endauth
                     @guest
+                    {{-- Guest's view --}}
                     <div class="item__count-box">
                         <i class="far fa-star" style="cursor: default;"></i>
                         <span id="like-count">{{ $item->likes->count() }}</span>
@@ -46,6 +56,8 @@
                 </div>
                 @if($item->soldItem)
                 <button class="item__purchase-button--sold-out" disabled>完売いたしました</button>
+                @elseif(Auth::check() && Auth::id() == $item->seller_id)
+                <button class="item__purchase-button--sold-out" disabled>出品した商品です</button>
                 @else
                 <a href="{{ route('purchase.create', ['item' => $item->id]) }}" class="item__purchase-button">購入手続きへ</a>
                 @endif
