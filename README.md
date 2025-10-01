@@ -12,6 +12,7 @@
 
 ### Dockerビルド
 - `git clone git@github.com:yoshi-bell/coachtech-fleamarket.git`
+- `cd coachtech-fleamarket`
 - `docker-compose up -d --build`
 
 > MySQLは、OSによって起動しない場合があるのでそれぞれのPCに合わせてdocker-compose.ymlファイルを編集してください。
@@ -22,18 +23,8 @@
   - `docker-compose exec php bash`
 - パッケージのインストール
   - `composer install`
-- (コンビニ支払いテストをする場合)Stripe APIキーの設定
-  - `.env.example` ファイルから `.env` ファイルを作成します。
-  - Stripeダッシュボード（開発者設定 -> APIキー）から取得した以下のキーとその他の環境変数を設定します。
-    - `STRIPE_KEY="pk_test_..."`
-    - `STRIPE_SECRET="sk_test_..."`
-- (コンビニ支払いテストをする場合)　Stripe Webhookのセットアップ
-  - ターミナルに`stripeCLI`をインストールする。
-  - `stripe login` を実行し、表示されたURLよりブラウザで認証します。
-  - `stripe listen --forward-to http://localhost/api/webhook/stripe` を実行します。
-  - 表示されたWebhookシークレット (`whsec_...`) を`.env`ファイルに設定します。
-    - `STRIPE_WEBHOOK_SECRET="whsec_..."`
-    > **注意:** `stripe listen` を再実行すると新しいシークレットキーが発行されることが、その際は改めて`.env`を更新してください。
+- `.env.example` ファイルから `.env` ファイルを作成し環境変数を変更します。
+  - `cp .env.example .env`
 - アプリケーションキーの生成
   - `php artisan key:generate`
 - データベースのマイグレーション
@@ -46,6 +37,16 @@
     > シーディングにより、商品のダミーデータ10種類、ユーザーのダミーデータ5件がデータベースに入力されます。
 - ストレージのシンボリックリンク作成
   - `php artisan storage:link`
+- (コンビニ支払いテストをする場合)Stripe APIキーの設定
+  - Stripeダッシュボード（開発者設定 -> APIキー）から取得した以下のキーを設定します。
+    - `STRIPE_KEY="pk_test_..."`
+    - `STRIPE_SECRET="sk_test_..."`
+  - Stripe Webhookのセットアップのため、お使いのOSに合わせてに`stripeCLI`をインストールします。
+  - `stripe login` を実行し、表示されたURLよりブラウザで認証します。
+  - `stripe listen --forward-to http://localhost/api/webhook/stripe` を実行します。
+  - 表示されたWebhookシークレット (`whsec_...`) を`.env`ファイルに設定します。
+    - `STRIPE_WEBHOOK_SECRET="whsec_..."`
+    > **注意:** `stripe listen` を再実行すると新しいシークレットキーが発行されます。その際は改めて.envを更新してください。このシークレットキーはセッションごとに変わるため、開発セッションごとに更新が必要です。
 - （任意）`storage`ディレクトリの権限設定
      - "The stream or file could not be opened"エラーが発生した場合に実行します。
   - `chmod -R 777 storage`

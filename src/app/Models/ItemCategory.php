@@ -34,5 +34,4 @@ class ItemCategory extends Pivot
         'category_id',
     ];
 
-    // 中間テーブルなので、ここにリレーションは定義ない。
 }

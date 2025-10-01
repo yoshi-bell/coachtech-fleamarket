@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Stripe\Webhook;
 use Stripe\Exception\SignatureVerificationException;
-use App\Models\SoldItem; // SoldItemモデルを使用
-use App\Models\Item; // Itemモデルを使用
-use Illuminate\Support\Facades\DB; // トランザクション用
+use App\Models\SoldItem;
+use App\Models\Item;
+use Illuminate\Support\Facades\DB;
 
 class StripeWebhookController extends Controller
 {
@@ -16,22 +16,19 @@ class StripeWebhookController extends Controller
     {
         $payload = $request->getContent();
         $sig_header = $request->header('Stripe-Signature');
-        $endpoint_secret = env('STRIPE_WEBHOOK_SECRET'); // .envからシークレットを取得
+        $endpoint_secret = env('STRIPE_WEBHOOK_SECRET');
 
         try {
             $event = Webhook::constructEvent(
                 $payload, $sig_header, $endpoint_secret
             );
         } catch (SignatureVerificationException $e) {
-            // Invalid signature
             Log::warning('Stripe Webhook Signature Verification Failed.', ['exception' => $e->getMessage()]);
             return response()->json(['error' => 'Webhook signature verification failed.'], 403);
         } catch (\UnexpectedValueException $e) {
-            // Invalid payload
             Log::warning('Stripe Webhook Invalid Payload.', ['exception' => $e->getMessage()]);
             return response()->json(['error' => 'Invalid payload.'], 400);
         } catch (\Exception $e) {
-            // Other errors
             Log::error('Stripe Webhook Error.', ['exception' => $e->getMessage()]);
             return response()->json(['error' => 'Webhook processing error.'], 500);
         }
@@ -55,7 +52,7 @@ class StripeWebhookController extends Controller
     private function handleCheckoutSessionAsyncPaymentSucceeded($event)
     {
         $session = $event->data->object;
-        $metadata = $session->metadata; // Checkout Session作成時に保存したメタデータ
+        $metadata = $session->metadata;
 
         // メタデータから必要な情報を取得
         $item_id = $metadata->item_id ?? null;
