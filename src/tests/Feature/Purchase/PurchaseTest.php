@@ -6,7 +6,6 @@ use App\Models\Item;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Mockery;
 use Stripe\Checkout\Session;
 use Stripe\PaymentIntent;

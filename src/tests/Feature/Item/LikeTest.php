@@ -12,6 +12,12 @@ class LikeTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(\Database\Seeders\ConditionSeeder::class);
+    }
+
     /** @test */
     public function test_user_can_like_an_item()
     {

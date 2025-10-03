@@ -4,12 +4,12 @@ namespace Tests\Feature\Item;
 
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Condition;
 use App\Models\Item;
 use App\Models\Like;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ItemDetailTest extends TestCase
@@ -52,8 +52,8 @@ class ItemDetailTest extends TestCase
     /** @test */
     public function test_multiple_categories_are_displayed()
     {
-        $categories = \App\Models\Category::take(2)->get();
-        $condition = \App\Models\Condition::first();
+        $categories = Category::take(2)->get();
+        $condition = Condition::first();
 
         $item = Item::factory()
             ->hasAttached($categories)

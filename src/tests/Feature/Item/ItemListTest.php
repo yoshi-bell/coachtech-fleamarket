@@ -6,12 +6,17 @@ use App\Models\Item;
 use App\Models\SoldItem;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ItemListTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(\Database\Seeders\ConditionSeeder::class);
+    }
 
     /** @test */
     public function test_all_items_are_displayed()

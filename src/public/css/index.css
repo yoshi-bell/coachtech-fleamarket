@@ -30,7 +30,8 @@
     grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
     gap: 40px;
     max-width: 1515px;
-    margin: 50px 40px 30px 60px;
+    margin: 50px auto 30px;
+    padding: 0 40px;
 }
 
 .item-card {

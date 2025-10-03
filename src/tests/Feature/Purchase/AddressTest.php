@@ -6,7 +6,6 @@ use App\Models\Item;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Mockery;
 use Stripe\Checkout\Session;
 use Stripe\PaymentIntent;
@@ -15,6 +14,12 @@ use Tests\TestCase;
 class AddressTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(\Database\Seeders\ConditionSeeder::class);
+    }
 
     protected function tearDown(): void
     {

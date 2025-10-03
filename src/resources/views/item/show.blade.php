@@ -23,22 +23,22 @@
             <div class="item__actions">
                 <div class="item__counts">
                     @auth
-                        @if(Auth::id() == $item->seller_id)
-                        {{-- Seller's view --}}
-                        <div class="item__count-box">
-                            <i class="far fa-star" style="cursor: default;"></i>
-                            <span id="like-count">{{ $item->likes->count() }}</span>
-                        </div>
-                        @else
-                        {{-- Other users' view --}}
-                        <form id="like-form" class="item__count-box" data-item-id="{{ $item->id }}" data-is-liked="{{ $isLiked ? 'true' : 'false' }}" novalidate>
-                            @csrf
-                            <button type="submit" class="like-button">
-                                <i id="like-icon" class="far fa-star {{ $isLiked ? 'liked' : '' }}"></i>
-                            </button>
-                            <span id="like-count">{{ $item->likes->count() }}</span>
-                        </form>
-                        @endif
+                    @if(Auth::id() == $item->seller_id)
+                    {{-- Seller's view --}}
+                    <div class="item__count-box">
+                        <i class="far fa-star" style="cursor: default;"></i>
+                        <span id="like-count">{{ $item->likes->count() }}</span>
+                    </div>
+                    @else
+                    {{-- Other users' view --}}
+                    <form id="like-form" class="item__count-box" data-item-id="{{ $item->id }}" data-is-liked="{{ $isLiked ? 'true' : 'false' }}" novalidate>
+                        @csrf
+                        <button type="submit" class="like-button">
+                            <i id="like-icon" class="far fa-star {{ $isLiked ? 'liked' : '' }}"></i>
+                        </button>
+                        <span id="like-count">{{ $item->likes->count() }}</span>
+                    </form>
+                    @endif
                     @endauth
                     @guest
                     {{-- Guest's view --}}
@@ -51,7 +51,7 @@
                         <a href="#item__comments-section" class="comment-link">
                             <i class="far fa-comment"></i>
                         </a>
-                        <span id="item-comment-count">{{ $item->comments->count() }}</span>
+                        <span class="comment-count-display">{{ $item->comments->count() }}</span>
                     </div>
                 </div>
                 @if($item->soldItem)
@@ -83,7 +83,7 @@
             </div>
 
             <div id="item__comments-section" class="item__comments-section">
-                <h3>コメント<span id="comments-section-count">({{ $item->comments->count() }})</span></h3>
+                <h3>コメント(<span class="comment-count-display">{{ $item->comments->count() }}</span>)</h3>
                 @forelse($item->comments as $comment)
                 <div class="item__comment-item">
                     <div class="comment__user-info">
@@ -150,13 +150,12 @@
 
         const commentForm = document.getElementById('comment-form');
         if (commentForm) {
-            commentForm.addEventListener('submit', function(e) {
-                e.preventDefault();
+            commentForm.addEventListener('submit', function(event) {
+                event.preventDefault();
 
                 const formData = new FormData(this);
                 const commentTextarea = this.querySelector('textarea[name="comment"]');
                 const commentsSection = document.getElementById('item__comments-section');
-                const itemCommentCountSpan = document.getElementById('item-comment-count');
                 const noCommentMessage = document.getElementById('no-comment-message');
                 const commentErrorMessageDiv = document.getElementById('comment-error-message');
 
@@ -206,12 +205,15 @@
                         if (h3Element) {
                             h3Element.after(newCommentDiv);
                         } else {
+                            // h3要素が存在しない万が一のケースに備え、prependで先頭に追加するフォールバック処理
                             commentsSection.prepend(newCommentDiv);
                         }
 
                         // コメント数を更新
-                        itemCommentCountSpan.textContent = data.commentCount;
-                        document.getElementById('comments-section-count').textContent = `(${data.commentCount})`;
+                        const countSpans = document.querySelectorAll('.comment-count-display');
+                        countSpans.forEach(span => {
+                            span.textContent = data.commentCount;
+                        });
 
                         // テキストエリアをクリア
                         commentTextarea.value = '';

@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Item;
 
+use App\Models\Category;
 use App\Models\Condition;
 use App\Models\Item;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -28,7 +28,7 @@ class ListItemTest extends TestCase
         Storage::fake('public');
 
         $user = User::factory()->create();
-        $categories = \App\Models\Category::take(2)->get();
+        $categories = Category::take(2)->get();
         $condition = Condition::first();
 
         $file = UploadedFile::fake()->image('item.jpg');

@@ -1,6 +1,7 @@
 .item__content {
     max-width: 1515px;
     padding: 100px 80px 80px;
+    margin: 0 auto;
 }
 
 .item__card {

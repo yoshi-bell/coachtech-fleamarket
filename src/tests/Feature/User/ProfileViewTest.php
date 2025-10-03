@@ -14,6 +14,12 @@ class ProfileViewTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(\Database\Seeders\ConditionSeeder::class);
+    }
+
     /** @test */
     public function test_can_view_own_profile_info()
     {
