@@ -7,7 +7,7 @@ use App\Models\Profile;
 use App\Models\SoldItem;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ProfileViewTest extends TestCase
@@ -23,9 +23,11 @@ class ProfileViewTest extends TestCase
     /** @test */
     public function test_can_view_own_profile_info()
     {
+        Storage::fake('public');
+
         // Create a user with a profile and 1 listed item
         $user = User::factory()
-            ->has(Profile::factory())
+            ->has(Profile::factory(['img_url' => 'avatar.jpg']))
             ->has(Item::factory(['name' => 'My Listed Item']), 'items')
             ->create();
 
@@ -43,6 +45,7 @@ class ProfileViewTest extends TestCase
         $response->assertSee($user->name);
         $response->assertSee('My Listed Item');
         $response->assertDontSee('My Purchased Item');
+        $response->assertSee('<img src="' . asset('storage/profile_images/avatar.jpg') . '"', false);
 
         // Check the 'buy' tab
         $response = $this->actingAs($user)->get(route('mypage.show', ['page' => 'buy']));

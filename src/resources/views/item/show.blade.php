@@ -116,19 +116,19 @@
     document.addEventListener('DOMContentLoaded', function() {
         const likeForm = document.getElementById('like-form');
         if (likeForm) {
-            likeForm.addEventListener('submit', function(e) {
-                e.preventDefault();
+            likeForm.addEventListener('submit', function(event) {
+                event.preventDefault();
 
                 const itemId = this.dataset.itemId;
                 let isLiked = this.dataset.isLiked === 'true';
                 const likeIcon = document.getElementById('like-icon');
                 const likeCountSpan = document.getElementById('like-count');
 
-                const method = isLiked ? 'DELETE' : 'POST';
+                const likeMethod = isLiked ? 'DELETE' : 'POST';
                 const url = `/like/${itemId}`;
 
                 fetch(url, {
-                        method: method,
+                        method: likeMethod,
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                             'Content-Type': 'application/json',
@@ -203,9 +203,10 @@
                         // コメントリストの先頭に追加 (h3の直後)
                         const h3Element = commentsSection.querySelector('h3');
                         if (h3Element) {
+                            // 基本的な処理: h3見出しの直後にコメントを追加
                             h3Element.after(newCommentDiv);
                         } else {
-                            // h3要素が存在しない万が一のケースに備え、prependで先頭に追加するフォールバック処理
+                            // h3要素が存在しなくなる万が一のケースに備え、prependで先頭に追加するフォールバック処理
                             commentsSection.prepend(newCommentDiv);
                         }
 

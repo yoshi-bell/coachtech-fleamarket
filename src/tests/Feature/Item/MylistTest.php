@@ -55,15 +55,13 @@ class MylistTest extends TestCase
     }
 
     /** @test */
-    public function test_unauthenticated_user_sees_all_items_on_mylist_tab()
+    public function test_unauthenticated_user_sees_nothing_on_mylist_tab()
     {
-        Item::factory()->count(5)->create();
+        $item = Item::factory()->create();
 
         $response = $this->get('/?tab=mylist');
 
         $response->assertStatus(200);
-        $response->assertViewHas('items', function ($items) {
-            return $items->count() === 5;
-        });
+        $response->assertDontSee($item->name);
     }
 }
