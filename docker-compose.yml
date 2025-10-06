@@ -8,6 +8,8 @@ services:
       - ./src:/var/www/
     depends_on:
       - php
+    networks:
+      - my-app-network
 
   php:
     build: ./docker/php
@@ -17,6 +19,8 @@ services:
       - mysql
     depends_on:
       - mysql
+    networks:
+      - my-app-network
 
   mysql:
     image: mysql:8.0.26
@@ -30,6 +34,8 @@ services:
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - my-app-network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -42,9 +48,26 @@ services:
       - mysql
     ports:
       - 8080:80
+    networks:
+      - my-app-network
 
   mailhog:
     image: mailhog/mailhog
     ports:
       - "1025:1025"
       - "8025:8025"
+    networks:
+      - my-app-network
+
+  selenium:
+    image: selenium/standalone-chrome:latest
+    ports:
+      - "7900:7900"
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - my-app-network
+
+networks:
+  my-app-network:
+    driver: bridge
