@@ -11,10 +11,18 @@
         @csrf
         <div class="sell-form__group">
             <h3 class="sell-form__image-title">商品画像</h3>
-            <div class="sell-form__image-upload">
-                <img id="image-preview" src="#" alt="Image preview" style="display: none;">
+            <div class="sell-form__image-upload @if(session('image_preview_url')) is-preview-shown @endif">
+                <img id="image-preview"
+                    src="{{ session('image_preview_url', '#') }}"
+                    alt="Image preview"
+                    style="display: {{ session('image_preview_url') ? 'block' : 'none' }};">
                 <input type="file" id="img_url" name="img_url" class="sell-form__image-input" accept="image/jpeg,image/png">
                 <label for="img_url" class="sell-form__image-label">画像を選択する</label>
+
+                {{-- 一時保存された画像のパスを保持するための隠しフィールド --}}
+                @if(session('temp_image_path'))
+                    <input type="hidden" name="temp_image_path" value="{{ session('temp_image_path') }}">
+                @endif
             </div>
             @error('img_url')
             <div class="form__error">{{ $message }}</div>
@@ -97,6 +105,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const fileInput = document.getElementById('img_url');
         const imagePreview = document.getElementById('image-preview');
+        const imageUploadArea = document.querySelector('.sell-form__image-upload'); // ★ 親要素を取得
 
         fileInput.addEventListener('change', function(e) {
             if (e.target.files && e.target.files[0]) {
@@ -105,11 +114,25 @@
                 reader.onload = function(e) {
                     imagePreview.src = e.target.result;
                     imagePreview.style.display = 'block';
+                    // 親要素にクラスを追加
+                    imageUploadArea.classList.add('is-preview-shown');
                 }
 
                 reader.readAsDataURL(e.target.files[0]);
             }
         });
+
+        // ★ ここからが新しいコード ★
+        // 親要素にマウスが乗った時の処理
+        imageUploadArea.addEventListener('mouseenter', function() {
+            this.classList.add('is-hovered');
+        });
+
+        // 親要素からマウスが離れた時の処理
+        imageUploadArea.addEventListener('mouseleave', function() {
+            this.classList.remove('is-hovered');
+        });
+        // ★ ここまでが新しいコード ★
     });
 </script>
 @endsection

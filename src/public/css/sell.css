@@ -113,6 +113,7 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+    pointer-events: none; /* ★ この一行を追加 ★ */
 }
 
 .sell-form__image-input {
@@ -133,7 +134,7 @@
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    background-color: rgba(255, 255, 255, 0.8); /* Add a slight background to make it readable on images */
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .sell-form__image-label:hover {
@@ -187,6 +188,19 @@
 
 .form__button-submit:hover {
     background-color: #ee4444;
+}
+
+/* プレビュー表示中は、デフォルトでボタンを非表示にし、マウス操作も受け付けない */
+.sell-form__image-upload.is-preview-shown .sell-form__image-label {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* プレビュー表示中に、親要素に .is-hovered クラスが付いた時だけボタンを表示する */
+.sell-form__image-upload.is-preview-shown.is-hovered .sell-form__image-label {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 /* 販売価格入力のスピンボタンを非表示にする */
@@ -268,3 +282,4 @@
         margin: 30px 0;
     }
 }
+

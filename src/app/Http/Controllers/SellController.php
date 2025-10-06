@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Condition;
 use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class SellController extends Controller
 {
@@ -20,9 +21,20 @@ class SellController extends Controller
     public function store(ExhibitionRequest $request)
     {
         $validated = $request->validated();
+        $imagePath = '';
 
-        // 画像を 'public/item_images' ディレクトリに保存し、パスを取得
-        $path = $request->file('img_url')->store('item_images', 'public');
+        if ($request->hasFile('img_url')) {
+            // 新しい画像がアップロードされた場合
+            $path = $request->file('img_url')->store('item_images', 'public');
+            $imagePath = basename($path);
+        } elseif ($request->has('temp_image_path')) {
+            // 一時保存された画像を使用する場合
+            $tempPath = $request->input('temp_image_path');
+            $fileName = basename($tempPath);
+            // temp_previewsからitem_imagesへファイルを移動
+            Storage::disk('public')->move($tempPath, 'item_images/' . $fileName);
+            $imagePath = $fileName;
+        }
 
         // 商品を作成
         $item = Item::create([
@@ -32,7 +44,7 @@ class SellController extends Controller
             'brand' => $request->input('brand'),
             'description' => $validated['description'],
             'price' => $validated['price'],
-            'img_url' => basename($path), // ファイル名のみをDBに保存
+            'img_url' => $imagePath, // 決定した画像パスを保存
         ]);
 
         // カテゴリーを紐付け

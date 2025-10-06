@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ExhibitionRequest extends FormRequest
 {
@@ -26,7 +29,7 @@ class ExhibitionRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:255'],
-            'img_url' => ['required', 'image', 'mimes:jpeg,png'],
+            'img_url' => [Rule::requiredIf(empty($this->input('temp_image_path'))), 'image', 'mimes:jpeg,png'],
             'category_ids'   => ['required', 'array'],
             'category_ids.*' => ['integer', 'exists:categories,id'],
             'condition_id' => ['required', 'integer', 'exists:conditions,id'],
@@ -60,5 +63,19 @@ class ExhibitionRequest extends FormRequest
             'price.integer' => '商品価格は数値で入力してください',
             'price.min' => '商品価格は0円以上で入力してください',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        // バリデーション失敗時に画像がアップロードされていれば、一時保存する
+        if ($this->hasFile('img_url') && $this->file('img_url')->isValid()) {
+            $path = $this->file('img_url')->store('temp_previews', 'public');
+            // 次のリクエストのために、画像のURLとサーバー上の一時パスの両方をセッションに保存
+            session()->flash('image_preview_url', Storage::url($path));
+            session()->flash('temp_image_path', $path);
+        }
+
+        // 親クラスのバリデーション失敗処理を呼び出す
+        parent::failedValidation($validator);
     }
 }
