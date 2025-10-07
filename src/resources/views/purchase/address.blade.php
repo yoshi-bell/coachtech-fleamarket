@@ -34,7 +34,6 @@
                 <div class="form__error">{{ $message }}</div>
             @enderror
         </div>
-
         <button type="submit" class="address-form__submit-btn">更新する</button>
     </form>
 </div>

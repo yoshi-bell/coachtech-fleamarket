@@ -105,7 +105,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const fileInput = document.getElementById('img_url');
         const imagePreview = document.getElementById('image-preview');
-        const imageUploadArea = document.querySelector('.sell-form__image-upload'); // ★ 親要素を取得
+        const imageUploadArea = document.querySelector('.sell-form__image-upload');
 
         fileInput.addEventListener('change', function(event) {
             if (event.target.files && event.target.files[0]) {
@@ -114,7 +114,6 @@
                 reader.onload = function(event) {
                     imagePreview.src = event.target.result;
                     imagePreview.style.display = 'block';
-                    // 親要素にクラスを追加
                     imageUploadArea.classList.add('is-preview-shown');
                 }
 
@@ -122,17 +121,13 @@
             }
         });
 
-        // ★ ここからが新しいコード ★
-        // 親要素にマウスが乗った時の処理
         imageUploadArea.addEventListener('mouseenter', function() {
             this.classList.add('is-hovered');
         });
 
-        // 親要素からマウスが離れた時の処理
         imageUploadArea.addEventListener('mouseleave', function() {
             this.classList.remove('is-hovered');
         });
-        // ★ ここまでが新しいコード ★
     });
 </script>
 @endsection

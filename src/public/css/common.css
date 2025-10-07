@@ -286,7 +286,7 @@ body {
     }
 
     .header-nav-container {
-        display: none; /* Hide nav menu */
+        display: none;
     }
 
     .header__mobile-icons{
@@ -295,7 +295,7 @@ body {
 
 
     .hamburger-menu {
-        display: flex; /* Show hamburger icon */
+        display: flex;
     }
 
     .mobile-menu-is-open .header-nav-container {

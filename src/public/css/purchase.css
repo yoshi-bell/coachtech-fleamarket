@@ -26,7 +26,6 @@
 
 .purchase-item__img {
     max-width: 180px;
-    /* height: 180px; */
     object-fit: cover;
 }
 
@@ -139,7 +138,6 @@
     background-color: #ee4444;
 }
 
-/* Custom styles for payment select dropdown */
 .purchase-form__payment-select {
     width: 265px;
     height: 30px;
@@ -151,16 +149,8 @@
 .purchase-form__payment-select:focus {
     outline: none;
     border-color: #007bff;
-    /* Blue border on focus */
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
-
-/*
-Note: Styling the <option> elements themselves (e.g., background color of the selected option, adding checkmarks)
-has very limited and inconsistent support across different browsers.
-The styles above apply to the main select box, not the dropdown list itself.
-A fully custom dropdown requires JavaScript.
-*/
 
 @media (max-width: 1200px) {
     .purchase-content {
@@ -202,18 +192,6 @@ A fully custom dropdown requires JavaScript.
     .purchase-item__body {
         margin-left: 10px;
     }
-/* 
-    .purchase-item__name {
-        font-size: 24px;
-    }
-
-    .purchase-item__price {
-        font-size: 24px;
-    }
-
-    .purchase-item__price span {
-        font-size: 20px;
-    } */
 
     .purchase-form__group {
         padding: 15px 0;
@@ -245,10 +223,6 @@ A fully custom dropdown requires JavaScript.
         align-items: flex-start;
         padding: 15px 40px;
     }
-/* 
-    .purchase-summary__value {
-        font-size: 20px;
-    } */
 
     .purchase-summary__value span {
         font-size: 16px;

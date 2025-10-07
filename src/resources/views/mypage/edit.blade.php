@@ -126,7 +126,6 @@
 
                 reader.onload = function(event) {
                     imagePreview.src = event.target.result;
-                    // If the placeholder class was on the img, remove it to ensure correct styling
                     imagePreview.classList.remove('profile__image-placeholder');
                 }
 

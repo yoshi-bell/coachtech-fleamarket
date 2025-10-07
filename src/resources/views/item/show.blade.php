@@ -159,7 +159,6 @@
                 const noCommentMessage = document.getElementById('no-comment-message');
                 const commentErrorMessageDiv = document.getElementById('comment-error-message');
 
-                // 以前のエラーメッセージをクリア
                 commentErrorMessageDiv.textContent = '';
 
                 fetch(this.action, {
@@ -194,12 +193,10 @@
                             <small class="comment__time">たった今</small>
                         </div>
                     `;
-
                         // 「まだコメントはありません。」のメッセージがあれば削除
                         if (noCommentMessage) {
                             noCommentMessage.remove();
                         }
-
                         // コメントリストの先頭に追加 (h3の直後)
                         const h3Element = commentsSection.querySelector('h3');
                         if (h3Element) {
@@ -209,21 +206,16 @@
                             // h3要素が存在しなくなる万が一のケースに備え、prependで先頭に追加するフォールバック処理
                             commentsSection.prepend(newCommentDiv);
                         }
-
-                        // コメント数を更新
                         const countSpans = document.querySelectorAll('.comment-count-display');
                         countSpans.forEach(span => {
                             span.textContent = data.commentCount;
                         });
-
-                        // テキストエリアをクリア
                         commentTextarea.value = '';
                     })
                     .catch(error => {
                         console.error('Error:', error);
                         let errorMessage = 'コメントの投稿中にエラーが発生しました。';
                         if (error.errors) {
-                            // バリデーションエラーメッセージを表示
                             errorMessage = Object.values(error.errors).flat().join('\n');
                         } else if (error.message) {
                             errorMessage = error.message;

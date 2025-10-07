@@ -23,7 +23,7 @@
 }
 
 .verify-email-form__success-message {
-    color: #4CAF50; /* Green for success */
+    color: #4CAF50;
     font-weight: bold;
     margin-bottom: 20px;
 }
