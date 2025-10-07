@@ -15,15 +15,26 @@
 
         <div class="form__group profile__image-group">
             <div class="profile__image-preview">
-                @if($user->profile && $user->profile->img_url)
-                <img src="{{ asset('storage/profile_images/' . $user->profile->img_url) }}" alt="プロフィール画像" id="image-preview">
+                {{-- バリデーションエラーで戻ってきた場合の一時プレビューを優先 --}}
+                @if(session('image_preview_url'))
+                    <img src="{{ session('image_preview_url') }}" alt="プロフィール画像" id="image-preview">
+                {{-- 既存の画像がある場合 --}}
+                @elseif($user->profile && $user->profile->img_url)
+                    <img src="{{ asset('storage/profile_images/' . $user->profile->img_url) }}" alt="プロフィール画像" id="image-preview">
+                {{-- どちらもない場合 --}}
                 @else
-                <img src="{{ asset('images/placeholder.png') }}" alt="プロフィール画像" class="profile__image-placeholder" id="image-preview">
+                    <img src="{{ asset('images/placeholder.png') }}" alt="プロフィール画像" class="profile__image-placeholder" id="image-preview">
                 @endif
             </div>
             <div class="profile__image-controls">
                 <label for="img_url" class="profile__image-select-button">画像を選択する</label>
                 <input type="file" id="img_url" name="img_url" accept="image/jpeg,image/png" style="display: none;">
+
+                {{-- 一時保存された画像のパスを保持するための隠しフィールド --}}
+                @if(session('temp_image_path'))
+                    <input type="hidden" name="temp_image_path" value="{{ session('temp_image_path') }}">
+                @endif
+
                 <div class="form__error">
                     @error('img_url')
                     {{ $message }}
@@ -109,17 +120,17 @@
         const fileInput = document.getElementById('img_url');
         const imagePreview = document.getElementById('image-preview');
 
-        fileInput.addEventListener('change', function(e) {
-            if (e.target.files && e.target.files[0]) {
+        fileInput.addEventListener('change', function(event) {
+            if (event.target.files && event.target.files[0]) {
                 const reader = new FileReader();
 
-                reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
+                reader.onload = function(event) {
+                    imagePreview.src = event.target.result;
                     // If the placeholder class was on the img, remove it to ensure correct styling
                     imagePreview.classList.remove('profile__image-placeholder');
                 }
 
-                reader.readAsDataURL(e.target.files[0]);
+                reader.readAsDataURL(event.target.files[0]);
             }
         });
     });

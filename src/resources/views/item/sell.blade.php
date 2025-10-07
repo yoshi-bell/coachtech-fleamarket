@@ -107,18 +107,18 @@
         const imagePreview = document.getElementById('image-preview');
         const imageUploadArea = document.querySelector('.sell-form__image-upload'); // ★ 親要素を取得
 
-        fileInput.addEventListener('change', function(e) {
-            if (e.target.files && e.target.files[0]) {
+        fileInput.addEventListener('change', function(event) {
+            if (event.target.files && event.target.files[0]) {
                 const reader = new FileReader();
 
-                reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
+                reader.onload = function(event) {
+                    imagePreview.src = event.target.result;
                     imagePreview.style.display = 'block';
                     // 親要素にクラスを追加
                     imageUploadArea.classList.add('is-preview-shown');
                 }
 
-                reader.readAsDataURL(e.target.files[0]);
+                reader.readAsDataURL(event.target.files[0]);
             }
         });
 

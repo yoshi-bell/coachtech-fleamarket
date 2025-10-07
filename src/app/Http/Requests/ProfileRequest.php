@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ProfileRequest extends FormRequest
 {
@@ -24,7 +27,13 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'img_url' => ['nullable', 'image', 'mimes:jpeg,png'],
+            'img_url' => [
+                Rule::requiredIf(function () {
+                    // 新しい画像がなく、かつ一時保存された画像もない場合にのみ必須
+                    return !$this->has('temp_image_path') && !$this->user()->profile?->img_url;
+                }),
+                'nullable', 'image', 'mimes:jpeg,png'
+            ],
             'name' => ['required', 'string', 'max:20'],
             'postcode' => ['required', 'regex:/^\d{3}-\d{4}$/'],
             'address' => ['required', 'string', 'max:255'],
@@ -48,5 +57,16 @@ class ProfileRequest extends FormRequest
             'building.string' => '建物名を文字列で入力してください',
             'building.max' => '建物名は255文字以内で入力してください',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        if ($this->hasFile('img_url') && $this->file('img_url')->isValid()) {
+            $path = $this->file('img_url')->store('temp_profile_previews', 'public');
+            session()->flash('image_preview_url', Storage::url($path));
+            session()->flash('temp_image_path', $path);
+        }
+
+        parent::failedValidation($validator);
     }
 }

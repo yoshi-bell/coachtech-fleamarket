@@ -161,15 +161,12 @@
 - **ChromeDriverのインストール**
   - `php artisan dusk:chrome-driver --detect`
 
-- **Dusk用環境ファイルの作成**
-  - `.env.dusk.local.example` ファイルから `.env.dusk.local` ファイルを作成。
+- **Dusk用環境ファイル`.env.dusk.local` ファイルを`.env.dusk.local.example` ファイルから 作成。**
   - `cp .env.dusk.local.example .env.dusk.local`
-  - `APP_KEY`に`.env`ファイルから自身のキーをコピー。
+  - その後`.env.dusk.local`に`.env`ファイルの`APP_KEY`をコピー。
 
 - **Dusk用データベースファイルの作成**
-  `touch database/database.sqlite`
-
-  > もし誤って開発用データベースを変更してしまった場合は、`docker-compose exec php php artisan migrate:fresh --seed` を実行することで、データベースを初期状態に戻すことができます。（注意：データベース内の全データがリセットされます）
+  - `touch database/database.sqlite`
 
 ### テストの実行
 

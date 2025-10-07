@@ -23,9 +23,6 @@ class RegisterController extends Controller
         // ログイン状態にする
         auth()->login($user);
 
-        //認証メールを送信
-        $user->sendEmailVerificationNotification();
-
         // ログイン後にメール認証画面へリダイレクト
         return redirect()->route('verification.notice');
     }

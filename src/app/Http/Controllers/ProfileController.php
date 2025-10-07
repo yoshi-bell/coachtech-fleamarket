@@ -27,11 +27,27 @@ class ProfileController extends Controller
         $profile = $user->profile ?? new Profile(['user_id' => $user->id]);
 
         if ($request->hasFile('img_url')) {
+            // 新しい画像がアップロードされた場合
+            // 既存の画像があれば削除
             if ($profile->img_url && Storage::disk('public')->exists('profile_images/' . $profile->img_url)) {
                 Storage::disk('public')->delete('profile_images/' . $profile->img_url);
             }
             $path = $request->file('img_url')->store('profile_images', 'public');
             $profile->img_url = basename($path);
+
+        } elseif ($request->has('temp_image_path')) {
+            // 一時保存された画像を使用する場合
+            $tempPath = $request->input('temp_image_path');
+            $fileName = basename($tempPath);
+
+            // 既存の画像があれば削除
+            if ($profile->img_url && Storage::disk('public')->exists('profile_images/' . $profile->img_url)) {
+                Storage::disk('public')->delete('profile_images/' . $profile->img_url);
+            }
+
+            // temp_profile_previewsからprofile_imagesへファイルを移動
+            Storage::disk('public')->move($tempPath, 'profile_images/' . $fileName);
+            $profile->img_url = $fileName;
         }
 
         $profile->postcode = $request->postcode;
