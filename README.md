@@ -15,7 +15,7 @@
 - `cd coachtech-fleamarket`
 - `docker-compose up -d --build`
 
-> MySQLは、OSによって起動しない場合があるのでそれぞれのPCに合わせてdocker-compose.ymlファイルを編集してください。
+> MySQLは、OSによって起動しない場合があるのでそれぞれのPCに合わせて`docker-compose.yml`ファイルを編集してください。
 
 ### Laravel環境構築
 
@@ -46,22 +46,25 @@
   - `chmod -R 777 storage`
   > **注意:** `777`は全てのユーザーに読み書き実行を許可する最も緩い権限設定です。これはローカル開発環境での権限問題を簡易的に解決するためのもので、本番環境では使用しないでください。
 
-- **(コンビニ支払いテストをする場合)Stripe APIキーの設定**
-
-  >これ以降はターミナルによる実行
-
-  - Stripeダッシュボード（開発者設定 -> APIキー）から取得した以下のキーを設定。
+### 決済サービスstripeによるテスト環境構築
+- **Stripe APIキーの設定**
+  - Stripeダッシュボード（開発者設定 -> APIキー）から取得した以下のキーを`.env`ファイルに設定。
     - `STRIPE_KEY="pk_test_..."`
     - `STRIPE_SECRET="sk_test_..."`
-  - Stripe Webhookのセットアップのため、お使いのOSに合わせてに`stripeCLI`をインストール。
-  - `stripe login` を実行し、表示されたURLよりブラウザで認証します。
-  - `stripe listen --forward-to http://localhost/api/webhook/stripe` を実行。
-  - 表示されたWebhookシークレット (`whsec_...`) を`.env`ファイルに設定します。
-    - `STRIPE_WEBHOOK_SECRET="whsec_..."`
-    > **注意:** `stripe listen` を再実行すると新しいシークレットキーが発行されます。その際は改めて.envを更新してください。このシークレットキーはセッションごとに変わるため、開発セッションごとに更新が必要です。
+  > 以上のの設定でクレジット支払いでの決済テストが可能。コンビニ払い決済テストの設定は以下。
+
+- **Dockerを再ビルドし`.env`ファイルの変更を反映**
+  - `docker-compose down`
+  - `docker-compose up -d`
+
+- **Stripe CLIをインストール**
+  - 使用OSに合わせて、以下の公式ドキュメントを参考にインストール。
+    - (https://stripe.com/docs/stripe-cli)
+
+- **決済機能テスト**
+  - 後述の「決済機能テスト」を参照。
 
 ## アプリケーションの機能
-
 このアプリケーションは、フリマサイトを管理するためのシステムです。主な機能は以下の通りです。
 
 - **会員登録・ログイン機能**:
@@ -179,7 +182,7 @@
 
   > もし誤って開発用データベースを変更してしまった場合は、`php artisan migrate:fresh --seed` を実行することで、データベースを初期状態に戻すことができます。（注意：データベース内の全データがリセットされます）
 
-## 決済機能のテスト方法
+## 決済機能テスト
 stripeを用いた、購入時の決済テストが行えます。
 ### テスト用アカウント
 
@@ -202,9 +205,23 @@ stripeを用いた、購入時の決済テストが行えます。
 
 ### コンビニ決済
 
-- コンビニ決済のテストでは、ターミナルにてStripeにログインし、`stripe listen --forward-to http://localhost/api/webhook/stripe`のコマンドを実行し、Stripe CLIを「リスニングモード」を実行中にする必要があります。（そうすることでStripeからWebhookイベント（例：決済成功、返金、顧客作成など）を監視し、ローカルサーバーに転送することできます。）
+- **Strip CLIにログイン**
+  - 新規ターミナルにて下記のコマンドを実行し、表示されたURLよりブラウザによる認証を行いログイン。
+  - `stripe login`
+- **Stripe WebhookのセットアップしStripe CLIの「リスニングモード」実行**
+    - `stripe listen --forward-to http://localhost/api/webhook/stripe`
+    - 表示されたWebhookシークレット (`whsec_...`) を`.env`ファイルに設定。
+      - `STRIPE_WEBHOOK_SECRET="whsec_..."`
+    - Stripe CLIをこのまま「リスニングモード」実行中にしターミナルを開いておくことで、StripeからWebhookイベント（例：決済成功、返金、顧客作成など）を監視し、ローカルサーバーに転送。
 
-- 支払い情報の入力画面で**以下のテスト用メールアドレスを使用する**ことで、支払いを即座に成功させ、購入を完了するシミュレーションが可能です。
+    > **注意:** `stripe listen` を再実行すると新しいシークレットキーが発行されます。その際は改めて.envを更新してください。このシークレットキーはstripe listenコマンドを実行するたびに変わるため、開発セッションごとに更新が必要です。
+
+- **Dockerを再ビルドし`.env`ファイルの変更を反映**
+  - Stripe CLIを実行しているのとは別のターミナルで、プロジェクトのルートディレクトリ`coachtech-fleamarket`にてDockerを再起動する。
+  - `docker-compose down`
+  - `docker-compose up -d`
+
+- stripeの支払い情報入力画面で**以下のテスト用メールアドレスを使用する**ことで、支払いを即座に成功させ、購入を完了するシミュレーションが可能です。
 
 -   **テスト用メールアドレス:** `succeed_immediately@example.com`
 
