@@ -27,13 +27,7 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'img_url' => [
-                Rule::requiredIf(function () {
-                    // 新しい画像がなく、かつ一時保存された画像もない場合にのみ必須
-                    return !$this->has('temp_image_path') && !$this->user()->profile?->img_url;
-                }),
-                'nullable', 'image', 'mimes:jpeg,png'
-            ],
+            'img_url' => ['nullable', 'image', 'mimes:jpeg,png'],
             'name' => ['required', 'string', 'max:20'],
             'postcode' => ['required', 'regex:/^\d{3}-\d{4}$/'],
             'address' => ['required', 'string', 'max:255'],
