@@ -27,6 +27,9 @@
                     <div class="header__search">
                         <form action="/" method="get" novalidate>
                             <input type="text" name="keyword" placeholder="なにをお探しですか?" value="{{ request('keyword') }}">
+                            @if(isset($tab))
+                            <input type="hidden" name="tab" value="{{ $tab }}">
+                            @endif
                         </form>
                     </div>
                     <div class="header__mobile-icons">
