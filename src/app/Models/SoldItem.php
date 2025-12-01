@@ -59,4 +59,14 @@ class SoldItem extends Model
     {
         return $this->belongsTo(User::class, 'buyer_id');
     }
+
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
 }

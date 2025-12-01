@@ -1,0 +1,85 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Chat;
+use App\Models\Item;
+use App\Models\Rating;
+use App\Models\SoldItem;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+
+class TransactionSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        // 既存のユーザーと商品を取得
+        $users = User::all();
+        $items = Item::whereDoesntHave('soldItem')->get();
+
+        if ($users->count() < 2 || $items->count() < 1) {
+            return;
+        }
+
+        // 1. 取引中の商品を作成（チャットあり、SoldItemあり、評価なし）
+        $transactionItem = $items->pop();
+        $buyer = $users->random();
+        $seller = $transactionItem->seller;
+
+        // 自分自身の商品を買わないようにする
+        while ($buyer->id === $seller->id) {
+            $buyer = $users->random();
+        }
+
+        $soldItem = SoldItem::create([
+            'item_id' => $transactionItem->id,
+            'buyer_id' => $buyer->id,
+            'postcode' => '123-4567',
+            'address' => '東京都渋谷区...',
+            'building' => 'テストビル',
+        ]);
+
+        // チャットメッセージ
+        Chat::create([
+            'sender_id' => $buyer->id,
+            'sold_item_id' => $soldItem->id,
+            'message' => '購入させていただきました。よろしくお願いいたします。',
+        ]);
+        Chat::create([
+            'sender_id' => $seller->id,
+            'sold_item_id' => $soldItem->id,
+            'message' => 'ご購入ありがとうございます。発送まで少々お待ちください。',
+        ]);
+
+        // 2. 取引完了の商品を作成（評価あり）
+        if ($items->count() > 0) {
+            $completedItem = $items->pop();
+            $buyer2 = $users->random();
+            $seller2 = $completedItem->seller;
+
+            while ($buyer2->id === $seller2->id) {
+                $buyer2 = $users->random();
+            }
+
+            $soldItem2 = SoldItem::create([
+                'item_id' => $completedItem->id,
+                'buyer_id' => $buyer2->id,
+                'postcode' => '987-6543',
+                'address' => '大阪府大阪市...',
+                'building' => 'サンプルマンション',
+            ]);
+
+            Rating::create([
+                'rater_id' => $buyer2->id,
+                'rated_user_id' => $seller2->id,
+                'sold_item_id' => $soldItem2->id,
+                'rating' => 5,
+            ]);
+        }
+    }
+}

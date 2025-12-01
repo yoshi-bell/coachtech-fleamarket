@@ -9,6 +9,8 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SellController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\RatingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,4 +67,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/like/{item}', [LikeController::class, 'store'])->name('like.store');
     Route::delete('/like/{item}', [LikeController::class, 'destroy'])->name('like.destroy');
     Route::post('/comment/{item}', [CommentController::class, 'store'])->name('comment.store');
+
+    // Chat
+    Route::get('/chat/{item}', [ChatController::class, 'index'])->name('chat.index');
+    Route::post('/chat/{item}', [ChatController::class, 'store'])->name('chat.store');
+    Route::delete('/chat/{chat}', [ChatController::class, 'destroy'])->name('chat.destroy');
+
+    // Rating
+    Route::post('/rating/{item}', [RatingController::class, 'store'])->name('rating.store');
 });

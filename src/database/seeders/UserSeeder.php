@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
             'test5@example.com',
         ];
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $user = User::factory()->create([
                 'email' => $emails[$i],
             ]);

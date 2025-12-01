@@ -65,7 +65,7 @@
     display: flex;
     justify-content: flex-start;
     margin-bottom: 20px;
-    border-bottom: 2px solid #5F5F5F;
+    border-bottom: 2px solid #5f5f5f;
     padding-bottom: 10px;
     padding-left: 20px;
 }
@@ -74,7 +74,7 @@
     padding: 10px 20px;
     margin-left: 25px;
     text-decoration: none;
-    color: #5F5F5F;
+    color: #5f5f5f;
     font-size: 24px;
     font-weight: bold;
     transition: color 0.3s ease;
@@ -221,19 +221,51 @@
 }
 
 @media (max-width: 550px) {
-    .mypage__header{
+    .mypage__header {
         margin: 20px 0 20px;
     }
     .mypage__item-grid {
         grid-template-columns: 1fr;
         justify-items: center;
     }
-    .mypage__tabs{
+    .mypage__tabs {
         justify-content: space-evenly;
     }
 
-    .mypage__tab,.mypage__tab:first-child{
+    .mypage__tab,
+    .mypage__tab:first-child {
         padding: 0 0 10px;
         margin: 0;
     }
+}
+
+.item-card__badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ff5555;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 50%;
+    z-index: 10;
+    min-width: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.mypage__tab-badge {
+    display: inline-block;
+    background-color: #ff5555;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 50%;
+    margin-left: 8px;
+    min-width: 24px;
+    text-align: center;
+    line-height: 24px;
+    vertical-align: middle;
 }

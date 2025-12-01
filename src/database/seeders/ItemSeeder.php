@@ -37,7 +37,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'seller_id' => $users[1]->id,
+                'seller_id' => $users[0]->id,
                 'condition_id' => 2,
                 'name' => 'HDD',
                 'brand' => '西芝',
@@ -48,7 +48,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'seller_id' => $users[1]->id,
+                'seller_id' => $users[0]->id,
                 'condition_id' => 3,
                 'name' => '玉ねぎ3束',
                 'brand' => 'なし',
@@ -81,7 +81,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'seller_id' => $users[0]->id,
+                'seller_id' => $users[1]->id,
                 'condition_id' => 2,
                 'name' => 'マイク',
                 'brand' => 'なし',
