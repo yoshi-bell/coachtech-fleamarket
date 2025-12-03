@@ -15,7 +15,20 @@
                 <img src="{{ asset('images/placeholder.png') }}" alt="プロフィール画像" class="mypage__profile-image-placeholder">
                 @endif
             </div>
-            <div class="mypage__username">{{ $user->name }}</div>
+            <div class="mypage__user-details">
+                <div class="mypage__username">{{ $user->name }}</div>
+                @if($user->average_rating > 0)
+                <div class="mypage-rating">
+                    @for ($i = 1; $i <= 5; $i++)
+                        @if ($i <= $user->average_rating)
+                            <span class="mypage-rating__star--filled">★</span>
+                        @else
+                            <span class="mypage-rating__star--empty">★</span>
+                        @endif
+                    @endfor
+                </div>
+                @endif
+            </div>
             <a href="{{ route('profile.edit') }}" class="mypage__edit-button">プロフィールを編集</a>
         </div>
     </div>

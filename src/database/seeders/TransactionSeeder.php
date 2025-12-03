@@ -8,6 +8,9 @@ use App\Models\Rating;
 use App\Models\SoldItem;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TransactionCompleted;
+use Illuminate\Support\Facades\App;
 
 class TransactionSeeder extends Seeder
 {
@@ -80,6 +83,11 @@ class TransactionSeeder extends Seeder
                 'sold_item_id' => $soldItem2->id,
                 'rating' => 5,
             ]);
+
+            // ローカル環境の場合のみメールを送信
+            if (App::environment('local')) {
+                Mail::to($seller2->email)->send(new TransactionCompleted($completedItem, $buyer2));
+            }
         }
     }
 }

@@ -40,7 +40,30 @@
 .mypage__username {
     font-size: 36px;
     font-weight: bold;
-    margin-left: 50px;
+    margin-left: 20px;
+}
+
+.mypage__user-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 星を左揃えにする場合 */
+    margin-left: 30px;
+}
+
+.mypage-rating {
+    width: 220px;
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 40px;
+    margin-top: 5px;
+}
+
+.mypage-rating__star--filled {
+    color: #FFF048; /* 黄色い星 */
+}
+
+.mypage-rating__star--empty {
+    color:#D9D9D9; /* グレーの星 */
 }
 
 .mypage__edit-button {
@@ -93,6 +116,22 @@
     border-bottom: none;
 }
 
+.mypage__tab-badge {
+    /* width: 27px; */
+    height: 27px;
+    display: inline-block;
+    background-color: #FF0000;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 0 4px;
+    border-radius: 10px;
+    margin-left: 8px;
+    min-width: 27px;
+    text-align: center;
+    line-height: 27px;
+    /* vertical-align: middle; */
+}
 .mypage__item-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
@@ -149,6 +188,25 @@
     z-index: 1;
 }
 
+.item-card__badge {
+    min-width: 20px;
+    height: 20px;
+    line-height: 20px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #FF0000;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 0px 2px;
+    border-radius: 50%;
+    z-index: 10;
+    /* min-width: 20px; */
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 @media (max-width: 1200px) {
     .mypage__item-grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -171,6 +229,9 @@
         margin: 0;
     }
 
+    .mypage__user-details{
+        margin: auto;
+    }
     .mypage__username {
         font-size: 22px;
         margin: auto;
@@ -239,33 +300,4 @@
     }
 }
 
-.item-card__badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: #ff5555;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 50%;
-    z-index: 10;
-    min-width: 20px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
 
-.mypage__tab-badge {
-    display: inline-block;
-    background-color: #ff5555;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 2px 8px;
-    border-radius: 50%;
-    margin-left: 8px;
-    min-width: 24px;
-    text-align: center;
-    line-height: 24px;
-    vertical-align: middle;
-}

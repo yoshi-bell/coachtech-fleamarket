@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Profile;
-use App\Models\User; // 追加
+use App\Models\User;
 
 class UserSeeder extends Seeder
 {
@@ -19,16 +19,12 @@ class UserSeeder extends Seeder
             'profile1.png',
             'profile2.png',
             'profile3.png',
-            'profile4.png',
-            'profile5.png',
         ];
 
         $emails = [
             'test1@example.com',
             'test2@example.com',
             'test3@example.com',
-            'test4@example.com',
-            'test5@example.com',
         ];
 
         for ($i = 0; $i < 3; $i++) {

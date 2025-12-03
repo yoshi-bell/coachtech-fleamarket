@@ -1,7 +1,7 @@
 <div id="rating-modal" class="rating-modal">
     <div class="rating-modal__content">
-        <span class="rating-modal__close" onclick="document.getElementById('rating-modal').style.display='none'">&times;</span>
-        <h3 class="rating-modal__title">取引相手を評価してください</h3>
+        <h3 class="rating-modal__title">取引が完了しました。</h3>
+        <p class="rating-modal__subtitle">今回の取引相手はどうでしたか？</p>
         <div class="rating-modal__stars">
             <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars">★</label>
             <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars">★</label>
@@ -10,7 +10,9 @@
             <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">★</label>
         </div>
         <input type="hidden" name="item_id" value="{{ $item->id }}">
-        <button type="submit" class="rating-modal__submit-button">評価を送信して取引完了</button>
+        <div class="rating-modal__actions">
+            <button type="submit" class="rating-modal__submit-button">送信する</button>
+        </div>
     </div>
 </div>
 
@@ -23,32 +25,49 @@
         top: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
+        /* background-color: rgba(0, 0, 0, 0.5); */
         justify-content: center;
         align-items: center;
     }
 
     .rating-modal__content {
-        background-color: white;
-        padding: 20px;
-        border-radius: 5px;
-        text-align: center;
+        background-color: #FDFCE6;
+        /* padding: 40px; */
+        border: 1px solid #000;
+        border-radius: 15px;
+        text-align: left;
         position: relative;
+        width: 600px;
+        height: 367px;
+        max-width: 90%;
     }
 
-    .rating-modal__close {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        font-size: 24px;
-        cursor: pointer;
+    .rating-modal__title {
+        padding: 18px 22px;
+        font-size: 35px;
+        font-weight: normal;
+        /* text-align: center; */
+        margin: 0;
+        color: #000000;
+        border-bottom: 1px solid #000;
+    }
+
+    .rating-modal__subtitle {
+        margin: 0;
+        padding: 18px 22px;
+        font-size: 20px;
+        color: #868686;
+        /* text-align: center; */
+        /* margin-bottom: 20px; */
     }
 
     .rating-modal__stars {
         display: flex;
         flex-direction: row-reverse;
         justify-content: center;
-        margin: 20px 0;
+        /* margin: 20px 0 30px; */
+        padding: 5px 0 22px;
+        border-bottom: 1px solid #000;
     }
 
     .rating-modal__stars input {
@@ -56,26 +75,47 @@
     }
 
     .rating-modal__stars label {
-        font-size: 30px;
-        color: #ccc;
+        font-size: 100px;
+        /* height: 100px; */
+        line-height: 100px;
+        color: #D9D9D9;
         cursor: pointer;
+        padding: 0 5px;
     }
 
     .rating-modal__stars input:checked~label {
-        color: #f5b50a;
+        color: #FFF048;
     }
 
     .rating-modal__stars label:hover,
     .rating-modal__stars label:hover~label {
-        color: #f5b50a;
+        color: #FFF048;
+    }
+
+    .rating-modal__actions {
+        display: flex;
+        justify-content: flex-end;
+        /* 中身を右寄せにする */
+        padding: 14px;
+        /* 他の要素と同じように余白を設ける */
     }
 
     .rating-modal__submit-button {
-        background-color: #ff5555;
+        background-color: #FF8282;
         color: white;
         border: none;
-        padding: 10px 20px;
+        /* padding: 10px 0; */
         border-radius: 5px;
         cursor: pointer;
+        /* font-weight: bold; */
+        width: 127px;
+        height: 49px;
+        line-height: 49px;
+        font-size: 24px;
+        /* text-align: right; */
+    }
+
+    .rating-modal__submit-button:hover {
+        opacity: 0.8;
     }
 </style>

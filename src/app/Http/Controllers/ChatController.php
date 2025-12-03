@@ -5,27 +5,37 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ChatRequest;
 use App\Models\Chat;
 use App\Models\Item;
+use App\Models\SoldItem;
 use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
     public function index(Item $item)
     {
+        $user = Auth::user();
         $soldItem = $item->soldItem;
         if (!$soldItem) {
             abort(404);
         }
 
+        // soldItemにリレーションをイーガーロードする
+        $soldItem->load(['ratings', 'buyer.profile', 'item.seller.profile']);
+
         // 権限チェック: 購入者または出品者のみ閲覧可能
-        if (Auth::id() !== $soldItem->buyer_id && Auth::id() !== $item->seller_id) {
+        if ($user->id !== $soldItem->buyer_id && $user->id !== $item->seller_id) {
             abort(403);
         }
 
         $chats = $soldItem->chats()->with('sender.profile')->orderBy('created_at', 'asc')->get();
 
+        // 相手からの未読メッセージを既読にする処理
+        $soldItem->chats()
+            ->where('sender_id', '!=', $user->id) // 相手からのメッセージ
+            ->whereNull('read_at')                // 未読のメッセージ
+            ->update(['read_at' => now()]);       // 現在時刻で更新
+
         // サイドバー用の他の取引を取得
-        $user = Auth::user();
-        $otherTransactions = \App\Models\SoldItem::where(function ($query) use ($user) {
+        $otherTransactions = SoldItem::where(function ($query) use ($user) {
             $query->where('buyer_id', $user->id)
                 ->orWhereHas('item', function ($q) use ($user) {
                     $q->where('seller_id', $user->id);
@@ -38,11 +48,18 @@ class ChatController extends Controller
             ->with(['item', 'chats'])
             ->get()
             ->sortByDesc(function ($soldItem) use ($user) {
-                $latestChat = $soldItem->chats->where('sender_id', '!=', $user->id)->sortByDesc('created_at')->first();
+                $latestChat = $soldItem->chats->sortByDesc('created_at')->first();
                 return $latestChat ? $latestChat->created_at : $soldItem->created_at;
             });
 
-        return view('chat.index', compact('item', 'chats', 'otherTransactions'));
+        // 取引相手の情報を取得
+        if ($user->id === $soldItem->buyer_id) {
+            $otherUser = $soldItem->item->seller;
+        } else {
+            $otherUser = $soldItem->buyer;
+        }
+
+        return view('chat.index', compact('item', 'soldItem', 'chats', 'otherTransactions', 'otherUser'));
     }
 
     public function store(ChatRequest $request, Item $item)
@@ -81,5 +98,18 @@ class ChatController extends Controller
         $chat->delete();
 
         return back();
+    }
+
+    public function update(ChatRequest $request, Chat $chat)
+    {
+        // 自分のメッセージしか編集できないように認可
+        if ($chat->sender_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $chat->message = $request->input('message');
+        $chat->save();
+
+        return back()->with('message', 'メッセージを更新しました！');
     }
 }

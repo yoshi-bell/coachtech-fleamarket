@@ -72,7 +72,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/chat/{item}', [ChatController::class, 'index'])->name('chat.index');
     Route::post('/chat/{item}', [ChatController::class, 'store'])->name('chat.store');
     Route::delete('/chat/{chat}', [ChatController::class, 'destroy'])->name('chat.destroy');
+    Route::patch('/chat/message/{chat}', [ChatController::class, 'update'])->name('chat.update');
 
     // Rating
-    Route::post('/rating/{item}', [RatingController::class, 'store'])->name('rating.store');
+    Route::post('/rating/{soldItem}', [RatingController::class, 'store'])->name('rating.store');
 });

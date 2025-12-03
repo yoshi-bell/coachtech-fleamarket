@@ -14,6 +14,7 @@ class ItemController extends Controller
         $keyword = $request->input('keyword');
         $items = collect();
 
+        // 認証ユーザーのマイリスト表示
         if ($tab === 'mylist' && Auth::check()) {
             $likedItemsQuery = Auth::user()->likes()->with('item.soldItem')->latest();
 
@@ -26,7 +27,13 @@ class ItemController extends Controller
             $items = $likedItemsQuery->get()->map(function ($like) {
                 return $like->item;
             });
-        } else {
+        }
+        // 非認証ユーザーのマイリスト表示
+        elseif ($tab === 'mylist' && Auth::guest()) {
+            $items = collect(); // 未認証ユーザーのマイリストは常に空
+        }
+        // 全商品表示 (認証ユーザー/非認証ユーザー共通)
+        else { // $tab === 'all' の場合
             $query = Item::query();
 
             if (Auth::check()) {

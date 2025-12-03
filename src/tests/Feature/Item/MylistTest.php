@@ -57,7 +57,7 @@ class MylistTest extends TestCase
     /** @test */
     public function test_unauthenticated_user_sees_nothing_on_mylist_tab()
     {
-        $item = Item::factory()->create();
+        $item = Item::factory()->create(['name' => 'Unique Test Item Name For Mylist']);
 
         $response = $this->get('/?tab=mylist');
 

@@ -14,6 +14,7 @@ class Chat extends Model
         'sold_item_id',
         'message',
         'image_path',
+        'read_at',
     ];
 
     public function sender()

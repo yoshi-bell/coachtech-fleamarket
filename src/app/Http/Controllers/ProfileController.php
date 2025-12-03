@@ -62,6 +62,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         $user->load([
             'profile',
+            'ratingsReceived',
             'items' => function ($query) {
                 $query->orderBy('id', 'desc')->with(['condition', 'categories']);
             },
@@ -92,7 +93,7 @@ class ProfileController extends Controller
                 ->with(['item', 'chats'])
                 ->get()
                 ->sortByDesc(function ($soldItem) use ($user) {
-                    $latestChat = $soldItem->chats->where('sender_id', '!=', $user->id)->sortByDesc('created_at')->first();
+                    $latestChat = $soldItem->chats->sortByDesc('created_at')->first();
                     return $latestChat ? $latestChat->created_at : $soldItem->created_at;
                 });
 
