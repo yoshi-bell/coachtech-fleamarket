@@ -26,6 +26,7 @@ abstract class DuskTestCase extends BaseTestCase
                 if ($browser->driver) { // ★ driverが存在するかチェックを追加 (安全のため)
                     $browser->dump();
                     $browser->screenshot('failure-' . date('Y-m-d-His'));
+                    $browser->storeConsoleLog('failure-' . date('Y-m-d-His'));
                 }
                 throw $e;
             }

@@ -30,9 +30,9 @@ class ChatController extends Controller
 
 
         $soldItem->chats()
-            ->where('sender_id', '!=', $user->id) // 相手からのメッセージ
-            ->whereNull('read_at')                // 未読のメッセージ
-            ->update(['read_at' => now()]);       // 現在時刻で更新
+            ->where('sender_id', '!=', $user->id)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
 
         // サイドバー用の他の取引を取得
         $otherTransactions = SoldItem::where(function ($query) use ($user) {
@@ -59,7 +59,34 @@ class ChatController extends Controller
             $otherUser = $soldItem->buyer;
         }
 
-        return view('chat.index', compact('item', 'soldItem', 'chats', 'otherTransactions', 'otherUser'));
+        // --- ビューに渡すデータを整理 ---
+        $isBuyer = $user->id === $soldItem->buyer_id;
+        $isSeller = $user->id === $item->seller_id;
+        $buyerRating = $soldItem->ratings->where('rater_id', $soldItem->buyer_id)->first();
+        $sellerRating = $soldItem->ratings->where('rater_id', $item->seller_id)->first();
+
+        $page = [
+            'isBuyer' => $isBuyer,
+            'isSeller' => $isSeller,
+            'shouldOpenModal' => $isSeller && $buyerRating && !$sellerRating,
+        ];
+
+        $transaction = [
+            'item' => $item,
+            'soldItem' => $soldItem,
+            'chats' => $chats,
+            'otherUser' => $otherUser,
+        ];
+
+        $sidebar = [
+            'otherTransactions' => $otherTransactions,
+        ];
+
+        return view('chat.index', [
+            'page' => $page,
+            'transaction' => $transaction,
+            'sidebar' => $sidebar,
+        ]);
     }
 
     public function store(ChatRequest $request, Item $item)

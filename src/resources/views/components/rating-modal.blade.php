@@ -25,14 +25,12 @@
         top: 0;
         width: 100%;
         height: 100%;
-        /* background-color: rgba(0, 0, 0, 0.5); */
         justify-content: center;
         align-items: center;
     }
 
     .rating-modal__content {
         background-color: #FDFCE6;
-        /* padding: 40px; */
         border: 1px solid #000;
         border-radius: 15px;
         text-align: left;
@@ -46,7 +44,6 @@
         padding: 18px 22px;
         font-size: 35px;
         font-weight: normal;
-        /* text-align: center; */
         margin: 0;
         color: #000000;
         border-bottom: 1px solid #000;
@@ -57,15 +54,12 @@
         padding: 18px 22px;
         font-size: 20px;
         color: #868686;
-        /* text-align: center; */
-        /* margin-bottom: 20px; */
     }
 
     .rating-modal__stars {
         display: flex;
         flex-direction: row-reverse;
         justify-content: center;
-        /* margin: 20px 0 30px; */
         padding: 5px 0 22px;
         border-bottom: 1px solid #000;
     }
@@ -76,7 +70,6 @@
 
     .rating-modal__stars label {
         font-size: 100px;
-        /* height: 100px; */
         line-height: 100px;
         color: #D9D9D9;
         cursor: pointer;
@@ -95,24 +88,19 @@
     .rating-modal__actions {
         display: flex;
         justify-content: flex-end;
-        /* 中身を右寄せにする */
         padding: 14px;
-        /* 他の要素と同じように余白を設ける */
     }
 
     .rating-modal__submit-button {
         background-color: #FF8282;
         color: white;
         border: none;
-        /* padding: 10px 0; */
         border-radius: 5px;
         cursor: pointer;
-        /* font-weight: bold; */
         width: 127px;
         height: 49px;
         line-height: 49px;
         font-size: 24px;
-        /* text-align: right; */
     }
 
     .rating-modal__submit-button:hover {
