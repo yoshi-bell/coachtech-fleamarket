@@ -1,11 +1,8 @@
 .chat-container {
     display: flex;
     height: calc(100vh - 80px);
-    /* ヘッダー分を引く */
-    max-width: 1515px;
+    max-width: 1540px;
     margin: 0 auto;
-    /* background-color: #fff; */
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
 .chat-sidebar {
@@ -26,8 +23,6 @@
 
 .chat-sidebar__list-title {
     margin: 8px;
-    /* padding: 20px; */
-    /* background-color: #888; */
     font-size: 30px;
     color: #fff;
     font-weight: bold;
@@ -41,19 +36,16 @@
 
 .chat-sidebar__item {
     width: 197px;
-    height: 40px;
     margin: 28px auto;
-    padding: 10px;
-    /* margin-bottom: 15px; */
+    padding: 2px 5px;
     background-color: #EEEFEB;
     display: flex;
+    justify-content: center;
     align-items: center;
-    text-align: center;
     text-decoration: none;
     color: inherit;
     border-radius: 5px;
     transition: background-color 0.2s;
-    /* border-bottom: 1px solid #ddd; */
 }
 
 .chat-sidebar__item-name {
@@ -98,8 +90,6 @@
 .chat-user-header__complete-button {
     width: 172px;
     height: 54px;
-    /* line-height: 54px; */
-    /* padding: 10px 20px; */
     background-color: #FF8282;
     border: 1px solid #ffffff;
     border-radius: 30px;
@@ -152,7 +142,6 @@
 
 .chat-item-info__price {
     font-size: 36px;
-    /* color: #333; */
     margin: 0;
 }
 
@@ -160,7 +149,6 @@
     flex: 1;
     overflow-y: auto;
     padding: 20px;
-    /* background-color: #f9f9f9; */
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -206,7 +194,6 @@
 }
 
 .chat-message--self .chat-message__bubble {
-    /* background-color: #f5f5f5; */
 }
 .chat-message--other .chat-message__content {
     align-items: flex-start;
@@ -275,7 +262,6 @@
     cursor: pointer;
     padding: 0;
     text-decoration: none;
-    /* background-color: ; */
     text-shadow: 1px 1px 2px rgba(0, 4, 4, 0.25)
 }
 
@@ -286,14 +272,11 @@
 
 .chat-footer {
     padding: 10px 20px;
-    /* background-color: #fff; */
-    /* border-top: 1px solid #eee; */
 }
 
 .chat-form {
     display: flex;
     flex-direction: row;
-    /* gap: 10px; */
     align-items: center;
 }
 
@@ -321,7 +304,6 @@
     width: 145px;
     height: 45px;
     line-height: 45px;
-    /* padding: 8px 16px; */
     background-color: #fff;
     border: 2px solid #ff5555;
     border-radius: 10px;
@@ -330,7 +312,6 @@
     font-size: 20px;
     color: #ff5555;
     font-weight: bold;
-    /* white-space: nowrap; */
     transition: all 0.3s;
 }
 
@@ -367,8 +348,6 @@
 
 .chat-footer__errors {
     margin-left: 10px;
-    /* margin: 0 0 10px 5px; */
-    /* margin-bottom: 10px; */
 }
 
 
@@ -415,9 +394,108 @@
     background-color: #e0e0e0;
 }
 
+
 @media (max-width: 1200px) {
     .chat-container {
-    height: calc(100vh - 140px);
-    /* ヘッダー分を引く */
+        height: calc(100vh - 140px);
+    }
+
+    .chat-sidebar {
+        width: 200px;
+    }
+    .chat-sidebar__list-title {
+        font-size: 24px;
+        padding: 15px 0 5px;
+    }
+    .chat-sidebar__item {
+        width: 160px;
+        margin: 20px auto;
+    }
+    .chat-sidebar__item-name {
+        font-size: 18px;
+    }
+
+    .chat-user-header__left {
+        gap: 0;
+    }
+    .chat-user-header__name {
+        font-size: 28px;
+    }
+    .chat-user-header__complete-button {
+        width: 140px;
+        height: 45px;
+        font-size: 16px;
+    }
+
+    .chat-item-info {
+        padding: 15px 20px;
+        gap: 15px;
+    }
+    .chat-item-info__image-wrapper {
+        width: 150px;
+        height: 150px;
+    }
+    .chat-item-info__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .chat-item-info__name {
+        font-size: 36px;
+    }
+    .chat-item-info__price {
+        font-size: 28px;
+    }
+
+    .chat-messages {
+        padding: 15px;
+        gap: 10px;
+    }
+    .chat-message__sender-image img {
+        width: 50px;
+        height: 50px;
+    }
+    .chat-message__sender-name {
+        font-size: 18px;
+    }
+    .chat-message__bubble {
+        max-width: 100%;
+        padding: 8px 12px;
+    }
+    .chat-message__text {
+        font-size: 16px;
+    }
+    .chat-message__image {
+        max-width: 150px;
+    }
+
+    .chat-footer {
+        padding: 15px 20px;
+    }
+    .chat-form__textarea {
+        font-size: 16px;
+        height: 38px;
+        line-height: 38px;
+    }
+    .chat-form__image-label {
+        font-size: 12px;
+        width: 120px;
+        height: 38px;
+        line-height: 38px;
+    }
+    .chat-form__submit-icon {
+        margin: 0 -5px 0 -5px;
+        width: 50px;
+        height: 40px;
+    }
 }
+
+@media (max-width: 900px) {
+    .responsive-break {
+        display: block;
+    }
+    .chat-user-header__name{
+        font-size: 24px;
+
+    }
 }

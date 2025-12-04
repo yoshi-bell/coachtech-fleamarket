@@ -18,17 +18,17 @@ class ChatController extends Controller
             abort(404);
         }
 
-        // soldItemにリレーションをイーガーロードする
+
         $soldItem->load(['ratings', 'buyer.profile', 'item.seller.profile']);
 
-        // 権限チェック: 購入者または出品者のみ閲覧可能
+
         if ($user->id !== $soldItem->buyer_id && $user->id !== $item->seller_id) {
             abort(403);
         }
 
         $chats = $soldItem->chats()->with('sender.profile')->orderBy('created_at', 'asc')->get();
 
-        // 相手からの未読メッセージを既読にする処理
+
         $soldItem->chats()
             ->where('sender_id', '!=', $user->id) // 相手からのメッセージ
             ->whereNull('read_at')                // 未読のメッセージ

@@ -25,7 +25,7 @@
                 @else
                 <img src="{{ asset('images/placeholder.png') }}" alt="プロフィール画像" class="chat-user-header__image">
                 @endif
-                <h1 class="chat-user-header__name">「{{ $otherUser->name }}」さんとの取引画面</h1>
+                <h1 class="chat-user-header__name">{{ $otherUser->name }}さんとの<span class="responsive-break"></span>取引画面</h1>
             </div>
             @php
             $isBuyer = Auth::id() === $soldItem->buyer_id;
@@ -148,7 +148,6 @@
 </div>
 
 <script>
-    // スクロールを一番下に
     const chatMessages = document.getElementById('chat-messages');
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
