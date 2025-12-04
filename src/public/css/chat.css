@@ -193,8 +193,6 @@
     flex-direction: row-reverse;
 }
 
-.chat-message--self .chat-message__bubble {
-}
 .chat-message--other .chat-message__content {
     align-items: flex-start;
 }
