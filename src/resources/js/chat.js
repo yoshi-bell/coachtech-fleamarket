@@ -15,13 +15,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatMessageInput = document.getElementById('chat-message-input');
     // chatMessageInput が存在する場合のみ処理を実行
     if (chatMessageInput) {
-        // soldItemId を HTML の data 属性から取得
+        // soldItemIdとuserIdをHTMLのdata属性から取得
         const chatContainer = document.getElementById('chat-container');
         const soldItemId = chatContainer ? chatContainer.dataset.soldItemId : null;
+        const userId = chatContainer ? chatContainer.dataset.userId : null;
 
-        if (soldItemId) {
+        if (soldItemId && userId) {
             const chatForm = chatMessageInput.closest('form');
-            const localStorageKey = `chat_message_for_${soldItemId}`;
+            const localStorageKey = `chat_message_for_${soldItemId}_by_user_${userId}`;
 
             // ページロード時にlocalStorageからメッセージを復元
             const savedMessage = localStorage.getItem(localStorageKey);

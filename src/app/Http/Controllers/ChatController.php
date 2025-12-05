@@ -18,16 +18,13 @@ class ChatController extends Controller
             abort(404);
         }
 
-
         $soldItem->load(['ratings', 'buyer.profile', 'item.seller.profile']);
-
 
         if ($user->id !== $soldItem->buyer_id && $user->id !== $item->seller_id) {
             abort(403);
         }
 
         $chats = $soldItem->chats()->with('sender.profile')->orderBy('created_at', 'asc')->get();
-
 
         $soldItem->chats()
             ->where('sender_id', '!=', $user->id)

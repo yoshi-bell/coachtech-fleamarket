@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<div class="chat-container" id="chat-container" data-sold-item-id="{{ $transaction['soldItem']->id }}">
+<div class="chat-container" id="chat-container" data-sold-item-id="{{ $transaction['soldItem']->id }}" data-user-id="{{ Auth::id() }}">
     <div class="chat-sidebar">
         <div class="chat-sidebar__list">
             <p class="chat-sidebar__list-title">その他の取引</p>

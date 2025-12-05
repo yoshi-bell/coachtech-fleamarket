@@ -27,8 +27,8 @@ class RatingController extends Controller
 
         // 既に評価済みでないか確認（二重評価防止）
         $existingRating = Rating::where('sold_item_id', $soldItem->id)
-                                ->where('rater_id', $rater->id)
-                                ->exists();
+            ->where('rater_id', $rater->id)
+            ->exists();
         if ($existingRating) {
             return back()->withErrors(['message' => 'すでに評価済みです。']);
         }
