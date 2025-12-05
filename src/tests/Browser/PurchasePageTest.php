@@ -13,6 +13,12 @@ class PurchasePageTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(\Database\Seeders\ConditionSeeder::class);
+    }
+
     /**
      * 支払い方法の動的な変更をテスト
      *検証していること：「フォームの送信に失敗して戻ってきた時に、以前選択した値が保持されているか」というサーバーサイドの挙動。
@@ -21,34 +27,26 @@ class PurchasePageTest extends DuskTestCase
      */
     public function test_payment_method_display_changes_dynamically()
     {
-        $this->seed();
+        // データの準備
+        $seller = User::factory()->create();
+        $item = Item::factory()->for($seller, 'seller')->create();
+        $buyer = User::factory()->create();
+        Profile::factory()->for($buyer)->create();
 
-        $item = Item::first();
-
-        $user = User::where('id', '!=', $item->seller_id)->first();
-
-        if (!$user->profile) {
-            Profile::factory()->for($user)->create();
-        }
-
-        $user->password = bcrypt('password');
-        $user->save();
-
-
-        $this->browse(function (Browser $browser) use ($user, $item) {
+        $this->browse(function (Browser $browser) use ($buyer, $item) {
             $browser->visit('/login')
-                    ->type('email', $user->email)
-                    ->type('password', 'password')
-                    ->press('ログイン')
-                    ->assertPathIs('/')
+                ->type('email', $buyer->email)
+                ->type('password', 'usertest') // UserFactory default password
+                ->press('ログイン')
+                ->assertPathIs('/')
 
-                    ->visit(route('purchase.create', $item))
-                    ->waitFor('#payment-method-select') // プルダウン要素が可視になるまで待機
+                ->visit(route('purchase.create', $item))
+                ->waitFor('#payment-method-select') // プルダウン要素が可視になるまで待機
 
-                    ->assertSeeIn('#payment-method-display', 'コンビニ払い')
-                    ->select('payment_method', '2')
-                    ->waitForTextIn('#payment-method-display', 'カード支払い')
-                    ->assertSeeIn('#payment-method-display', 'カード支払い');
+                ->assertSeeIn('#payment-method-display', 'コンビニ払い')
+                ->select('payment_method', '2')
+                ->waitForTextIn('#payment-method-display', 'カード支払い')
+                ->assertSeeIn('#payment-method-display', 'カード支払い');
         });
     }
 }
